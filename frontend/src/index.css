@@ -250,11 +250,14 @@
     top: 0;
     width: 100%;
     margin: 0;
-    padding: 0.6in 0.7in;
+    padding: 0 !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+    /* Ensure template background colors (e.g. the Sidebar column) print. */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
-  @page { margin: 0; size: A4; }
+  @page { margin: 0.5in; size: A4; }
 }
 
 /* ===== Page Transition ===== */
