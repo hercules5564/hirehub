@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { applyForJobAPI, getMyApplicationsAPI, getJobApplicantsAPI, updateApplicationStatusAPI, getSavedJobsAPI, saveJobAPI } from '../../services/api';
+import { applyForJobAPI, getMyApplicationsAPI, getJobApplicantsAPI, updateApplicationStatusAPI, withdrawApplicationAPI, getSavedJobsAPI, saveJobAPI } from '../../services/api';
 
 export const applyForJob = createAsyncThunk('applications/apply', async (data, { rejectWithValue }) => {
   try { const res = await applyForJobAPI(data); return res.data; }
@@ -19,6 +19,11 @@ export const fetchJobApplicants = createAsyncThunk('applications/jobApplicants',
 export const updateApplicationStatus = createAsyncThunk('applications/updateStatus', async ({ id, data }, { rejectWithValue }) => {
   try { const res = await updateApplicationStatusAPI(id, data); return res.data; }
   catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed'); }
+});
+
+export const withdrawApplication = createAsyncThunk('applications/withdraw', async (id, { rejectWithValue }) => {
+  try { const res = await withdrawApplicationAPI(id); return res.data; }
+  catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed to withdraw'); }
 });
 
 export const fetchSavedJobs = createAsyncThunk('applications/savedJobs', async (_, { rejectWithValue }) => {
@@ -49,6 +54,11 @@ const applicationSlice = createSlice({
         const idx = state.applicants.findIndex((a) => a._id === action.payload.application._id);
         if (idx !== -1) state.applicants[idx] = action.payload.application;
       })
+      .addCase(withdrawApplication.fulfilled, (state, action) => {
+        const idx = state.myApplications.findIndex((a) => a._id === action.payload.application._id);
+        if (idx !== -1) state.myApplications[idx].status = action.payload.application.status;
+      })
+      .addCase(withdrawApplication.rejected, (state, action) => { state.error = action.payload; })
       .addCase(fetchSavedJobs.fulfilled, (state, action) => {
         state.savedJobs = action.payload.savedJobs;
         state.savedJobIds = action.payload.savedJobs.map((s) => s.jobId?._id).filter(Boolean);

@@ -1,16 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchMyApplications } from '../redux/slices/applicationSlice';
+import toast from 'react-hot-toast';
+import { fetchMyApplications, withdrawApplication } from '../redux/slices/applicationSlice';
 import { formatSalary, timeAgo } from '../utils/helpers';
 import { APPLICATION_STATUS } from '../utils/constants';
 import { HiOutlineBriefcase } from 'react-icons/hi';
 
+// Statuses where the application is final and can no longer be withdrawn.
+const NON_WITHDRAWABLE = ['withdrawn', 'rejected', 'offered'];
+
 const Applications = () => {
   const dispatch = useDispatch();
   const { myApplications, loading } = useSelector((s) => s.applications);
+  const [withdrawingId, setWithdrawingId] = useState(null);
 
   useEffect(() => { dispatch(fetchMyApplications()); }, [dispatch]);
+
+  const handleWithdraw = async (app) => {
+    const title = app.jobId?.title || 'this position';
+    if (!window.confirm(`Withdraw your application for ${title}? This cannot be undone.`)) return;
+    setWithdrawingId(app._id);
+    const result = await dispatch(withdrawApplication(app._id));
+    setWithdrawingId(null);
+    if (withdrawApplication.fulfilled.match(result)) toast.success('Application withdrawn');
+    else toast.error(result.payload || 'Failed to withdraw application');
+  };
 
   return (
     <div className="min-h-screen bg-dark-50 dark:bg-dark-900 pt-20">
@@ -43,9 +58,20 @@ const Applications = () => {
                       <span>Applied {timeAgo(app.appliedAt)}</span>
                     </div>
                   </div>
-                  <span className={`badge text-xs flex-shrink-0 ${APPLICATION_STATUS[app.status]?.color || ''}`}>
-                    {APPLICATION_STATUS[app.status]?.label || app.status}
-                  </span>
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                    <span className={`badge text-xs ${APPLICATION_STATUS[app.status]?.color || ''}`}>
+                      {APPLICATION_STATUS[app.status]?.label || app.status}
+                    </span>
+                    {!NON_WITHDRAWABLE.includes(app.status) && (
+                      <button
+                        onClick={() => handleWithdraw(app)}
+                        disabled={withdrawingId === app._id}
+                        className="text-xs font-medium text-danger hover:underline disabled:opacity-50 disabled:no-underline"
+                      >
+                        {withdrawingId === app._id ? 'Withdrawing…' : 'Withdraw'}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
