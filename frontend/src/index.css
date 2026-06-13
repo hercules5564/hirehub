@@ -238,6 +238,25 @@
   font-weight: 600;
 }
 
+/* ===== Resume Builder print (Download as PDF) ===== */
+/* When printing, hide everything except the resume paper so the browser's
+   "Save as PDF" produces a clean, full-page resume. */
+@media print {
+  body * { visibility: hidden; }
+  #resume-paper, #resume-paper * { visibility: visible; }
+  #resume-paper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0.6in 0.7in;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  @page { margin: 0; size: A4; }
+}
+
 /* ===== Page Transition ===== */
 .page-enter {
   opacity: 0;
