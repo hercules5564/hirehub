@@ -5,7 +5,7 @@ import { fetchRecruiterJobs, removeJob } from '../redux/slices/jobSlice';
 import { fetchMyCompanies } from '../redux/slices/companySlice';
 import { fetchJobApplicants } from '../redux/slices/applicationSlice';
 import { timeAgo } from '../utils/helpers';
-import { HiOutlineBriefcase, HiOutlineUsers, HiOutlineChartBar, HiOutlinePlus, HiOutlinePencil, HiOutlineTrash, HiOutlineEye } from 'react-icons/hi';
+import { HiOutlineBriefcase, HiOutlineUsers, HiOutlineChartBar, HiOutlinePlus, HiOutlinePencil, HiOutlineTrash, HiOutlineEye, HiOutlineSparkles, HiOutlineExclamationCircle } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
 const RecruiterDashboard = () => {
@@ -26,84 +26,103 @@ const RecruiterDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-50 dark:bg-dark-900 pt-20">
+    <div className="min-h-screen bg-[#030303] text-white pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 animate-fade-in">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-dark-900 dark:text-white">Recruiter Dashboard</h1>
-            <p className="text-dark-500 mt-1">Manage your jobs and hiring pipeline</p>
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-3">
+              <HiOutlineSparkles className="w-4 h-4" /> Recruiter Workspace
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-bold text-white text-balance">
+              Recruiter <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Dashboard</span>
+            </h1>
+            <p className="text-white/60 mt-2">Manage your jobs and hiring pipeline</p>
           </div>
-          <Link to="/recruiter/jobs/new" className="btn-primary"><HiOutlinePlus className="w-5 h-5" /> Post New Job</Link>
+          <Link to="/recruiter/jobs/new" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]"><HiOutlinePlus className="w-5 h-5" /> Post New Job</Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 stagger-children">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
           {[
-            { icon: HiOutlineBriefcase, label: 'Active Jobs', value: activeJobs, color: 'from-blue-500 to-indigo-600' },
-            { icon: HiOutlineUsers, label: 'Total Applicants', value: totalApplicants, color: 'from-purple-500 to-pink-600' },
-            { icon: HiOutlineChartBar, label: 'Total Jobs', value: recruiterJobs.length, color: 'from-emerald-500 to-teal-600' },
+            { icon: HiOutlineBriefcase, label: 'Active Jobs', value: activeJobs },
+            { icon: HiOutlineUsers, label: 'Total Applicants', value: totalApplicants },
+            { icon: HiOutlineChartBar, label: 'Total Jobs', value: recruiterJobs.length },
           ].map((s, i) => (
-            <div key={i} className="bg-white dark:bg-dark-800 p-6 rounded-2xl border border-gray-100 dark:border-dark-700 card-hover">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-3`}>
+            <div key={i} className="group relative overflow-hidden bg-white/[0.03] p-6 rounded-2xl border border-white/[0.1] hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300">
+              <div className="absolute -right-10 -top-10 w-28 h-28 rounded-full bg-indigo-500/0 group-hover:bg-indigo-500/10 blur-2xl transition-all duration-500"></div>
+              <div className="relative w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center mb-4 text-white shadow-lg group-hover:scale-110 group-hover:-rotate-6 transition-transform">
                 <s.icon className="w-6 h-6 text-white" />
               </div>
-              <p className="text-3xl font-bold text-dark-900 dark:text-white">{s.value}</p>
-              <p className="text-sm text-dark-500">{s.label}</p>
+              <p className="relative text-3xl font-bold text-white">{s.value}</p>
+              <p className="relative text-sm text-white/60">{s.label}</p>
             </div>
           ))}
         </div>
 
         {/* Setup prompt */}
         {myCompanies.length === 0 && (
-          <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-2xl p-6 mb-6 animate-fade-in">
-            <h3 className="font-semibold text-yellow-800 dark:text-yellow-400 mb-2">Setup Required</h3>
-            <p className="text-sm text-yellow-700 dark:text-yellow-300 mb-3">Create a company profile before posting jobs.</p>
-            <Link to="/recruiter/company" className="btn-primary text-sm">Create Company</Link>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg flex-shrink-0">
+              <HiOutlineExclamationCircle className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-amber-300 mb-1">Setup Required</h3>
+              <p className="text-sm text-amber-200/80">Create a company profile before posting jobs.</p>
+            </div>
+            <Link to="/recruiter/company" className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">Create Company</Link>
           </div>
         )}
 
         {/* Jobs Table */}
-        <div className="bg-white dark:bg-dark-800 rounded-2xl border border-gray-100 dark:border-dark-700 overflow-hidden animate-fade-in">
-          <div className="p-6 border-b border-gray-100 dark:border-dark-700">
-            <h2 className="text-lg font-bold text-dark-900 dark:text-white">Your Jobs</h2>
+        <div className="bg-white/[0.03] rounded-2xl border border-white/[0.1] overflow-hidden">
+          <div className="p-6 border-b border-white/[0.08] flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)]">
+              <HiOutlineBriefcase className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-lg font-bold text-white">Your Jobs</h2>
           </div>
           {recruiterJobs.length === 0 ? (
-            <div className="text-center py-12">
-              <HiOutlineBriefcase className="w-12 h-12 mx-auto text-dark-300 mb-3" />
-              <p className="text-dark-500">No jobs posted yet</p>
+            <div className="text-center py-16">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-indigo-500/15 flex items-center justify-center">
+                <HiOutlineBriefcase className="w-8 h-8 text-indigo-300" />
+              </div>
+              <p className="text-white font-semibold">No jobs posted yet</p>
+              <p className="text-sm text-white/60 mt-1">Post your first role to start building your pipeline.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-dark-50 dark:bg-dark-700">
+                <thead className="bg-white/[0.04]">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-dark-500 uppercase">Job</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-dark-500 uppercase">Applicants</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-dark-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-dark-500 uppercase">Posted</th>
-                    <th className="px-6 py-3 text-right text-xs font-semibold text-dark-500 uppercase">Actions</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Job</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Applicants</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Posted</th>
+                    <th className="px-6 py-3.5 text-right text-xs font-semibold text-white/50 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-dark-700">
+                <tbody className="divide-y divide-white/[0.08]">
                   {recruiterJobs.map((job) => (
-                    <tr key={job._id} className="hover:bg-dark-50 dark:hover:bg-dark-700 transition-colors">
+                    <tr key={job._id} className="hover:bg-white/[0.04] transition-colors">
                       <td className="px-6 py-4">
-                        <p className="font-medium text-dark-900 dark:text-white text-sm">{job.title}</p>
-                        <p className="text-xs text-dark-500">{job.companyId?.companyName} • {job.location}</p>
+                        <p className="font-semibold text-white text-sm">{job.title}</p>
+                        <p className="text-xs text-white/50 mt-0.5">{job.companyId?.companyName} • {job.location}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-semibold text-dark-900 dark:text-white">{job.applicationsCount || 0}</span>
+                        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-300 bg-indigo-500/15 px-2.5 py-1 rounded-full">
+                          <HiOutlineUsers className="w-4 h-4" />{job.applicationsCount || 0}
+                        </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`badge text-xs ${job.status === 'active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-600 dark:bg-dark-600 dark:text-dark-400'}`}>
+                        <span className={`inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full ${job.status === 'active' ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/[0.06] text-white/70'}`}>
                           {job.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-dark-500">{timeAgo(job.postedDate)}</td>
+                      <td className="px-6 py-4 text-sm text-white/50">{timeAgo(job.postedDate)}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-1">
-                          <Link to={`/recruiter/jobs/${job._id}/applicants`} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 text-dark-500 hover:text-primary-600"><HiOutlineEye className="w-4 h-4" /></Link>
-                          <Link to={`/recruiter/jobs/${job._id}/edit`} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-600 text-dark-500 hover:text-primary-600"><HiOutlinePencil className="w-4 h-4" /></Link>
-                          <button onClick={() => handleDelete(job._id)} className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-dark-500 hover:text-red-600"><HiOutlineTrash className="w-4 h-4" /></button>
+                          <Link to={`/recruiter/jobs/${job._id}/applicants`} className="p-2 rounded-lg hover:bg-white/[0.06] text-white/60 hover:text-indigo-300 transition-colors"><HiOutlineEye className="w-4 h-4" /></Link>
+                          <Link to={`/recruiter/jobs/${job._id}/edit`} className="p-2 rounded-lg hover:bg-white/[0.06] text-white/60 hover:text-indigo-300 transition-colors"><HiOutlinePencil className="w-4 h-4" /></Link>
+                          <button onClick={() => handleDelete(job._id)} className="p-2 rounded-lg hover:bg-rose-500/15 text-white/60 hover:text-rose-300 transition-colors"><HiOutlineTrash className="w-4 h-4" /></button>
                         </div>
                       </td>
                     </tr>

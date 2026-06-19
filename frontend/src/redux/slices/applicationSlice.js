@@ -11,8 +11,11 @@ export const fetchMyApplications = createAsyncThunk('applications/my', async (_,
   catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed'); }
 });
 
-export const fetchJobApplicants = createAsyncThunk('applications/jobApplicants', async (jobId, { rejectWithValue }) => {
-  try { const res = await getJobApplicantsAPI(jobId); return res.data; }
+export const fetchJobApplicants = createAsyncThunk('applications/jobApplicants', async (arg, { rejectWithValue }) => {
+  // arg can be a jobId string or { jobId, sort }
+  const jobId = typeof arg === 'string' ? arg : arg.jobId;
+  const sort = typeof arg === 'object' ? arg.sort : undefined;
+  try { const res = await getJobApplicantsAPI(jobId, sort ? { sort } : undefined); return res.data; }
   catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed'); }
 });
 
@@ -52,7 +55,8 @@ const applicationSlice = createSlice({
       .addCase(fetchJobApplicants.rejected, (state, action) => { state.loading = false; state.error = action.payload; })
       .addCase(updateApplicationStatus.fulfilled, (state, action) => {
         const idx = state.applicants.findIndex((a) => a._id === action.payload.application._id);
-        if (idx !== -1) state.applicants[idx] = action.payload.application;
+        // Merge so the populated candidate + matchScore survive a status change
+        if (idx !== -1) state.applicants[idx] = { ...state.applicants[idx], ...action.payload.application, candidateId: state.applicants[idx].candidateId };
       })
       .addCase(withdrawApplication.fulfilled, (state, action) => {
         const idx = state.myApplications.findIndex((a) => a._id === action.payload.application._id);
