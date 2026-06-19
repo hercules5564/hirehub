@@ -7,6 +7,9 @@ const connectDB = async () => {
       try {
         const conn = await mongoose.connect(process.env.MONGO_URI);
         console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+        // Seed demo accounts ONCE if this DB is empty. Idempotent: seedDemoData
+        // returns early when users already exist, so real data is never wiped.
+        await seedDemoData();
         return;
       } catch (err) {
         console.warn(`⚠️  Could not connect to ${process.env.MONGO_URI}: ${err.message}`);

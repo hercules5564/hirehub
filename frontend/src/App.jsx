@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { MotionConfig } from 'motion/react';
 import { loadUser } from './redux/slices/authSlice';
 import { setTheme } from './redux/slices/themeSlice';
 
@@ -18,6 +19,9 @@ import Jobs from './pages/Jobs';
 import JobDetail from './pages/JobDetail';
 import CandidateDashboard from './pages/CandidateDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard';
+import PostJob from './pages/PostJob';
+import JobApplicants from './pages/JobApplicants';
+import ManageCompany from './pages/ManageCompany';
 import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
 import CompanyProfile from './pages/CompanyProfile';
@@ -27,6 +31,10 @@ import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Pricing from './pages/Pricing';
+import Enterprise from './pages/Enterprise';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import ResumeBuilder from './pages/ResumeBuilder';
 import NotFound from './pages/NotFound';
 
@@ -37,9 +45,9 @@ function App() {
   const location = useLocation();
   const { isAuthenticated } = useSelector((s) => s.auth);
 
+  // Theme toggle was removed — the app is dark-only now. Force dark on load.
   useEffect(() => {
-    const saved = localStorage.getItem('theme');
-    if (saved) dispatch(setTheme(saved));
+    dispatch(setTheme('dark'));
   }, [dispatch]);
 
   useEffect(() => {
@@ -52,6 +60,7 @@ function App() {
   const showLayout = !hideNavFooter.includes(location.pathname) && !location.pathname.startsWith('/reset-password');
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="flex flex-col min-h-screen">
       {showLayout && <Navbar />}
 
@@ -67,6 +76,10 @@ function App() {
           <Route path="/company/:id" element={<CompanyProfile />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/enterprise" element={<Enterprise />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
 
           {/* Candidate Routes */}
           <Route path="/dashboard" element={<ProtectedRoute><CandidateDashboard /></ProtectedRoute>} />
@@ -79,6 +92,10 @@ function App() {
 
           {/* Recruiter Routes */}
           <Route path="/recruiter/dashboard" element={<RoleRoute roles={['recruiter']}><RecruiterDashboard /></RoleRoute>} />
+          <Route path="/recruiter/company" element={<RoleRoute roles={['recruiter']}><ManageCompany /></RoleRoute>} />
+          <Route path="/recruiter/jobs/new" element={<RoleRoute roles={['recruiter']}><PostJob /></RoleRoute>} />
+          <Route path="/recruiter/jobs/:id/edit" element={<RoleRoute roles={['recruiter']}><PostJob /></RoleRoute>} />
+          <Route path="/recruiter/jobs/:id/applicants" element={<RoleRoute roles={['recruiter']}><JobApplicants /></RoleRoute>} />
           <Route path="/recruiter/*" element={<RoleRoute roles={['recruiter']}><RecruiterDashboard /></RoleRoute>} />
 
           {/* Admin Routes */}
@@ -91,6 +108,7 @@ function App() {
 
       {showLayout && <Footer />}
     </div>
+    </MotionConfig>
   );
 }
 

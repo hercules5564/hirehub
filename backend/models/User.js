@@ -97,6 +97,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  // AI auto-apply preferences (candidate)
+  autoApply: {
+    enabled: { type: Boolean, default: false },
+    minMatchScore: { type: Number, default: 60, min: 0, max: 100 },
+  },
   lastLogin: Date,
 }, {
   timestamps: true,

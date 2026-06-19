@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { SKILLS_LIST } from '../utils/constants';
+import AtsScorePanel from '../components/ats/AtsScorePanel';
 import {
   HiOutlinePlus, HiOutlineX, HiOutlineTrash, HiOutlineDownload,
   HiOutlineMail, HiOutlinePhone, HiOutlineLocationMarker, HiOutlineGlobeAlt,
@@ -16,8 +17,72 @@ const toYear = (v) => {
 const emptyExperience = { title: '', company: '', location: '', start: '', end: '', description: '' };
 const emptyEducation = { degree: '', field: '', institution: '', start: '', end: '' };
 
+// Realistic sample resume — lets you test the ATS score without typing everything in.
+const SAMPLE_DATA = {
+  fullName: 'Aarav Mehta',
+  title: 'Senior Full Stack Developer',
+  email: 'aarav.mehta@example.com',
+  phone: '+91 98765 43210',
+  location: 'Bangalore, India',
+  website: 'aaravmehta.dev',
+  linkedin: 'linkedin.com/in/aaravmehta',
+  github: 'github.com/aaravmehta',
+  summary:
+    'Senior full stack developer with 6 years building scalable web applications across the MERN stack. Led teams that shipped products used by millions, improving performance and reliability while mentoring junior engineers.',
+  experience: [
+    {
+      title: 'Senior Full Stack Developer',
+      company: 'TechCorp India',
+      location: 'Bangalore, India',
+      start: '2021',
+      end: 'Present',
+      description:
+        'Led a team of 5 engineers and improved API response time by 40%.\nBuilt and shipped a microservices platform serving 2M+ monthly users.\nReduced infrastructure costs by 30% through caching and query optimization.',
+    },
+    {
+      title: 'Full Stack Developer',
+      company: 'DataFlow Analytics',
+      location: 'Mumbai, India',
+      start: '2018',
+      end: '2021',
+      description:
+        'Developed React dashboards that increased user engagement by 25%.\nAutomated CI/CD pipelines, cutting deployment time from 2 hours to 15 minutes.',
+    },
+  ],
+  education: [
+    { degree: 'B.Tech', field: 'Computer Science', institution: 'IIT Delhi', start: '2014', end: '2018' },
+  ],
+  skills: ['React', 'Node.js', 'MongoDB', 'TypeScript', 'Express.js', 'AWS', 'Docker', 'GraphQL', 'Redis', 'CI/CD'],
+};
+
+// Deliberately weak resume — missing contact details, clichés, no metrics, few skills.
+// Use it to see a low ATS score with red/amber categories and tips.
+const WEAK_SAMPLE_DATA = {
+  fullName: 'John Smith',
+  title: '',
+  email: '',
+  phone: '',
+  location: '',
+  website: '',
+  linkedin: '',
+  github: '',
+  summary: 'Hard working team player responsible for various tasks.',
+  experience: [
+    {
+      title: 'Developer',
+      company: 'Some Company',
+      location: '',
+      start: '',
+      end: '',
+      description: 'Responsible for working on the website and doing day to day tasks.',
+    },
+  ],
+  education: [],
+  skills: ['HTML', 'CSS'],
+};
+
 const inputClass =
-  'w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-dark-600 bg-dark-50 dark:bg-dark-700 text-dark-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none text-sm';
+  'w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm';
 
 const TEMPLATES = [
   { id: 'modern', name: 'Modern' },
@@ -344,83 +409,93 @@ const ResumeBuilder = () => {
   const removeSkill = (s) => set('skills', data.skills.filter((x) => x !== s));
 
   const handleDownload = () => window.print();
+  const loadSample = () => setData(structuredClone(SAMPLE_DATA));
+  const loadWeakSample = () => setData(structuredClone(WEAK_SAMPLE_DATA));
 
   const SelectedTemplate = TEMPLATE_COMPONENTS[template];
 
   return (
-    <div className="min-h-screen bg-dark-50 dark:bg-dark-900 pt-20">
+    <div className="min-h-screen bg-[#030303] text-white pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 animate-fade-in">
           <div>
-            <h1 className="text-3xl font-bold text-dark-900 dark:text-white">Resume Builder</h1>
-            <p className="text-sm text-dark-500 mt-1">Fill in your details, pick a template, and download a clean PDF.</p>
+            <h1 className="text-3xl font-bold text-white">Resume Builder</h1>
+            <p className="text-sm text-white/60 mt-1">Fill in your details, pick a template, and download a clean PDF.</p>
           </div>
-          <button onClick={handleDownload} className="btn-primary self-start sm:self-auto">
-            <HiOutlineDownload className="w-5 h-5" /> Download PDF
-          </button>
+          <div className="flex items-center gap-2 self-start sm:self-auto">
+            <button onClick={loadWeakSample} className="px-4 py-2 rounded-xl border border-white/[0.12] text-white/80 text-sm font-medium hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+              Weak Sample
+            </button>
+            <button onClick={loadSample} className="px-4 py-2 rounded-xl border border-white/[0.12] text-white/80 text-sm font-medium hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+              Strong Sample
+            </button>
+            <button onClick={handleDownload} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 text-white text-sm font-semibold shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+              <HiOutlineDownload className="w-5 h-5" /> Download PDF
+            </button>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* ===== FORM ===== */}
           <div className="space-y-6">
-            <section className="bg-white dark:bg-dark-800 rounded-2xl p-6 border border-gray-100 dark:border-dark-700">
-              <h3 className="font-bold text-dark-900 dark:text-white mb-4">Personal Details</h3>
+            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
+              <h3 className="font-bold text-white mb-4">Personal Details</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Full Name</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Full Name</label>
                   <input className={inputClass} value={data.fullName} onChange={(e) => set('fullName', e.target.value)} placeholder="Jane Doe" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Professional Title</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Professional Title</label>
                   <input className={inputClass} value={data.title} onChange={(e) => set('title', e.target.value)} placeholder="Senior Full Stack Developer" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Email</label>
                   <input className={inputClass} value={data.email} onChange={(e) => set('email', e.target.value)} placeholder="jane@example.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Phone</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Phone</label>
                   <input className={inputClass} value={data.phone} onChange={(e) => set('phone', e.target.value)} placeholder="+1 555 000 1234" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Location</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Location</label>
                   <input className={inputClass} value={data.location} onChange={(e) => set('location', e.target.value)} placeholder="City, Country" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">Website</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">Website</label>
                   <input className={inputClass} value={data.website} onChange={(e) => set('website', e.target.value)} placeholder="yoursite.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">LinkedIn</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">LinkedIn</label>
                   <input className={inputClass} value={data.linkedin} onChange={(e) => set('linkedin', e.target.value)} placeholder="linkedin.com/in/you" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-dark-700 dark:text-dark-300 mb-1">GitHub</label>
+                  <label className="block text-sm font-medium text-white/70 mb-1">GitHub</label>
                   <input className={inputClass} value={data.github} onChange={(e) => set('github', e.target.value)} placeholder="github.com/you" />
                 </div>
               </div>
             </section>
 
-            <section className="bg-white dark:bg-dark-800 rounded-2xl p-6 border border-gray-100 dark:border-dark-700">
-              <h3 className="font-bold text-dark-900 dark:text-white mb-4">Professional Summary</h3>
+            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
+              <h3 className="font-bold text-white mb-4">Professional Summary</h3>
               <textarea rows={4} className={`${inputClass} resize-none`} value={data.summary}
                 onChange={(e) => set('summary', e.target.value)}
                 placeholder="A short paragraph summarizing your experience, strengths, and goals." />
             </section>
 
-            <section className="bg-white dark:bg-dark-800 rounded-2xl p-6 border border-gray-100 dark:border-dark-700">
+            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-dark-900 dark:text-white">Work Experience</h3>
-                <button onClick={() => addItem('experience', emptyExperience)} className="text-sm text-primary-600 font-medium flex items-center gap-1 hover:text-primary-700">
+                <h3 className="font-bold text-white">Work Experience</h3>
+                <button onClick={() => addItem('experience', emptyExperience)} className="text-sm text-indigo-300 font-medium flex items-center gap-1 hover:text-indigo-200 transition-colors">
                   <HiOutlinePlus className="w-4 h-4" /> Add
                 </button>
               </div>
               <div className="space-y-5">
                 {data.experience.map((exp, i) => (
-                  <div key={i} className="p-4 rounded-xl border border-gray-100 dark:border-dark-700 relative">
+                  <div key={i} className="p-4 rounded-xl border border-white/[0.08] relative">
                     {data.experience.length > 1 && (
-                      <button onClick={() => removeItem('experience', i)} className="absolute top-3 right-3 text-dark-400 hover:text-danger">
+                      <button onClick={() => removeItem('experience', i)} className="absolute top-3 right-3 text-white/50 hover:text-rose-400 transition-colors">
                         <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     )}
@@ -441,18 +516,18 @@ const ResumeBuilder = () => {
               </div>
             </section>
 
-            <section className="bg-white dark:bg-dark-800 rounded-2xl p-6 border border-gray-100 dark:border-dark-700">
+            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-dark-900 dark:text-white">Education</h3>
-                <button onClick={() => addItem('education', emptyEducation)} className="text-sm text-primary-600 font-medium flex items-center gap-1 hover:text-primary-700">
+                <h3 className="font-bold text-white">Education</h3>
+                <button onClick={() => addItem('education', emptyEducation)} className="text-sm text-indigo-300 font-medium flex items-center gap-1 hover:text-indigo-200 transition-colors">
                   <HiOutlinePlus className="w-4 h-4" /> Add
                 </button>
               </div>
               <div className="space-y-5">
                 {data.education.map((edu, i) => (
-                  <div key={i} className="p-4 rounded-xl border border-gray-100 dark:border-dark-700 relative">
+                  <div key={i} className="p-4 rounded-xl border border-white/[0.08] relative">
                     {data.education.length > 1 && (
-                      <button onClick={() => removeItem('education', i)} className="absolute top-3 right-3 text-dark-400 hover:text-danger">
+                      <button onClick={() => removeItem('education', i)} className="absolute top-3 right-3 text-white/50 hover:text-rose-400 transition-colors">
                         <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     )}
@@ -470,12 +545,12 @@ const ResumeBuilder = () => {
               </div>
             </section>
 
-            <section className="bg-white dark:bg-dark-800 rounded-2xl p-6 border border-gray-100 dark:border-dark-700">
-              <h3 className="font-bold text-dark-900 dark:text-white mb-4">Skills</h3>
+            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
+              <h3 className="font-bold text-white mb-4">Skills</h3>
               <div className="flex flex-wrap gap-2 mb-4">
                 {data.skills.map((s) => (
-                  <span key={s} className="badge bg-primary-50 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 flex items-center gap-1">
-                    {s} <button onClick={() => removeSkill(s)}><HiOutlineX className="w-3 h-3" /></button>
+                  <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300 flex items-center gap-1">
+                    {s} <button onClick={() => removeSkill(s)} className="hover:text-white transition-colors"><HiOutlineX className="w-3 h-3" /></button>
                   </span>
                 ))}
               </div>
@@ -484,23 +559,23 @@ const ResumeBuilder = () => {
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
                   placeholder="Add a skill..." list="rb-skills" className={inputClass} />
                 <datalist id="rb-skills">{SKILLS_LIST.map((s) => <option key={s} value={s} />)}</datalist>
-                <button onClick={addSkill} className="px-4 py-2 rounded-lg gradient-primary text-white text-sm font-medium flex-shrink-0"><HiOutlinePlus className="w-4 h-4" /></button>
+                <button onClick={addSkill} className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 text-white text-sm font-medium flex-shrink-0 shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300"><HiOutlinePlus className="w-4 h-4" /></button>
               </div>
             </section>
           </div>
 
-          {/* ===== PREVIEW ===== */}
-          <div className="lg:sticky lg:top-24 h-fit">
+          {/* ===== LIVE PREVIEW (sticky, side-by-side with the form) ===== */}
+          <div className="lg:sticky lg:top-24 h-fit space-y-4">
             {/* Template picker */}
-            <div className="flex items-center gap-2 mb-3 print:hidden">
-              <span className="text-xs uppercase tracking-wide text-dark-400 font-semibold mr-1">Template</span>
+            <div className="flex items-center gap-2 print:hidden">
+              <span className="text-xs uppercase tracking-wide text-white/50 font-semibold mr-1">Template</span>
               <div className="flex flex-wrap gap-1.5">
                 {TEMPLATES.map((t) => (
                   <button key={t.id} onClick={() => setTemplate(t.id)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       template === t.id
-                        ? 'gradient-primary text-white shadow'
-                        : 'bg-white dark:bg-dark-800 text-dark-600 dark:text-dark-300 border border-gray-200 dark:border-dark-700 hover:border-primary-400'
+                        ? 'bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)]'
+                        : 'bg-white/[0.06] text-white/70 border border-white/[0.1] hover:bg-white/[0.1] hover:text-white'
                     }`}>
                     {t.name}
                   </button>
@@ -512,6 +587,11 @@ const ResumeBuilder = () => {
               <SelectedTemplate data={data} />
             </div>
           </div>
+        </div>
+
+        {/* ===== ATS SCORE (below the builder, updates live with the resume) ===== */}
+        <div className="mt-8">
+          <AtsScorePanel data={data} />
         </div>
       </div>
     </div>

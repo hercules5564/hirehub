@@ -65,11 +65,13 @@ export const getMyCompaniesAPI = () => API.get('/companies/my/companies');
 // Applications
 export const applyForJobAPI = (data) => API.post('/applications', data);
 export const getMyApplicationsAPI = () => API.get('/applications/my');
-export const getJobApplicantsAPI = (jobId) => API.get(`/applications/job/${jobId}`);
+export const getJobApplicantsAPI = (jobId, params) => API.get(`/applications/job/${jobId}`, { params });
 export const updateApplicationStatusAPI = (id, data) => API.put(`/applications/${id}/status`, data);
 export const withdrawApplicationAPI = (id) => API.put(`/applications/${id}/withdraw`);
 export const saveJobAPI = (jobId) => API.post(`/applications/save/${jobId}`);
 export const getSavedJobsAPI = () => API.get('/applications/saved');
+export const updateAutoApplyAPI = (data) => API.put('/applications/auto-apply', data);
+export const runAutoApplyAPI = (data) => API.post('/applications/auto-apply/run', data);
 
 // Admin
 export const getAdminStatsAPI = () => API.get('/admin/stats');
@@ -77,6 +79,9 @@ export const getAdminUsersAPI = (params) => API.get('/admin/users', { params });
 export const updateAdminUserAPI = (id, data) => API.put(`/admin/users/${id}`, data);
 export const deleteAdminUserAPI = (id) => API.delete(`/admin/users/${id}`);
 export const moderateJobAPI = (id, data) => API.put(`/admin/jobs/${id}/moderate`, data);
+
+// Contact / support
+export const sendContactMessageAPI = (data) => API.post('/contact', data);
 
 // Notifications
 export const getNotificationsAPI = () => API.get('/notifications');
