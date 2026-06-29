@@ -20,17 +20,21 @@ exports.sendContactMessage = async (req, res, next) => {
         <p>${safe(message).replace(/\n/g, '<br/>')}</p>
       </div>`;
 
-    // Reply-to the sender so support can respond directly.
-    const delivered = await sendEmail({
+    // Log immediately so the message is never lost (e.g. if the host blocks SMTP).
+    console.log(`📨 Contact message from ${name} <${email}> | subject="${subject || ''}"`);
+
+    // Respond right away — never make the user wait on the mail server. Some hosts
+    // (Render free tier) block outbound SMTP, which would otherwise hang forever.
+    res.status(200).json({ success: true });
+
+    // Fire-and-forget the email in the background (bounded by sendEmail's timeouts).
+    sendEmail({
       to: support,
       subject: `[Contact] ${safe(subject) || 'New message'} — from ${safe(name)}`,
       html,
       replyTo: email,
-    });
-
-    // Always log, so a message is never lost even when SMTP is off.
-    console.log(`📨 Contact message from ${name} <${email}> | subject="${subject || ''}" | delivered=${delivered}`);
-
-    res.status(200).json({ success: true, delivered });
+    })
+      .then((delivered) => console.log(`   ↳ contact email delivered=${delivered}`))
+      .catch((err) => console.error('   ↳ contact email error:', err.message));
   } catch (error) { next(error); }
 };
