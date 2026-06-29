@@ -59,3 +59,55 @@ exports.moderateJob = async (req, res, next) => {
     res.status(200).json({ success: true, job });
   } catch (error) { next(error); }
 };
+
+// List all jobs (any status) for the admin Jobs page
+exports.getJobs = async (req, res, next) => {
+  try {
+    const { status, search, page = 1, limit = 20 } = req.query;
+    const query = {};
+    if (status) query.status = status;
+    if (search) query.title = { $regex: search, $options: 'i' };
+    const total = await Job.countDocuments(query);
+    const jobs = await Job.find(query)
+      .sort('-createdAt')
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit))
+      .populate('companyId', 'companyName logo');
+    res.status(200).json({ success: true, jobs, pagination: { page: parseInt(page), limit: parseInt(limit), total, pages: Math.ceil(total / limit) } });
+  } catch (error) { next(error); }
+};
+
+// Delete a job (and its applications) — admin
+exports.deleteJob = async (req, res, next) => {
+  try {
+    const job = await Job.findByIdAndDelete(req.params.id);
+    if (!job) return res.status(404).json({ success: false, message: 'Job not found' });
+    await Application.deleteMany({ jobId: req.params.id });
+    res.status(200).json({ success: true, message: 'Job deleted' });
+  } catch (error) { next(error); }
+};
+
+// List all companies for the admin Companies page
+exports.getCompanies = async (req, res, next) => {
+  try {
+    const { search, page = 1, limit = 20 } = req.query;
+    const query = {};
+    if (search) query.companyName = { $regex: search, $options: 'i' };
+    const total = await Company.countDocuments(query);
+    const companies = await Company.find(query)
+      .sort('-createdAt')
+      .skip((page - 1) * limit)
+      .limit(parseInt(limit))
+      .populate('recruiterId', 'name email');
+    res.status(200).json({ success: true, companies, pagination: { page: parseInt(page), limit: parseInt(limit), total, pages: Math.ceil(total / limit) } });
+  } catch (error) { next(error); }
+};
+
+// Delete a company — admin
+exports.deleteCompany = async (req, res, next) => {
+  try {
+    const company = await Company.findByIdAndDelete(req.params.id);
+    if (!company) return res.status(404).json({ success: false, message: 'Company not found' });
+    res.status(200).json({ success: true, message: 'Company deleted' });
+  } catch (error) { next(error); }
+};

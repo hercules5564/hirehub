@@ -102,6 +102,14 @@ const userSchema = new mongoose.Schema({
     enabled: { type: Boolean, default: false },
     minMatchScore: { type: Number, default: 60, min: 0, max: 100 },
   },
+  // Paid plan (set after a successful Razorpay payment)
+  subscription: {
+    plan: { type: String, enum: ['free', 'pro', 'enterprise'], default: 'free' },
+    status: { type: String, enum: ['inactive', 'active'], default: 'inactive' },
+    billing: { type: String, enum: ['monthly', 'yearly', ''], default: '' },
+    activatedAt: Date,
+    paymentId: String,
+  },
   lastLogin: Date,
 }, {
   timestamps: true,

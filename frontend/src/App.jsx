@@ -7,6 +7,7 @@ import { setTheme } from './redux/slices/themeSlice';
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import Sidebar from './components/layout/Sidebar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import RoleRoute from './components/auth/RoleRoute';
 
@@ -36,6 +37,14 @@ import Enterprise from './pages/Enterprise';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ResumeBuilder from './pages/ResumeBuilder';
+import PaymentSuccess from './pages/PaymentSuccess';
+import MyJobs from './pages/MyJobs';
+import RecruiterAnalytics from './pages/RecruiterAnalytics';
+import AdminUsers from './pages/AdminUsers';
+import AdminJobs from './pages/AdminJobs';
+import AdminCompanies from './pages/AdminCompanies';
+import AdminVerification from './pages/AdminVerification';
+import AdminAnalytics from './pages/AdminAnalytics';
 import NotFound from './pages/NotFound';
 
 const hideNavFooter = ['/login', '/signup', '/forgot-password'];
@@ -59,12 +68,18 @@ function App() {
 
   const showLayout = !hideNavFooter.includes(location.pathname) && !location.pathname.startsWith('/reset-password');
 
+  // Dashboard/app pages get the workspace Sidebar (role-aware nav); public pages don't.
+  const sidebarPrefixes = ['/dashboard', '/applications', '/saved-jobs', '/profile', '/notifications', '/settings', '/resume-builder', '/recruiter', '/admin'];
+  const showSidebar = isAuthenticated && showLayout && sidebarPrefixes.some((p) => location.pathname.startsWith(p));
+
   return (
     <MotionConfig reducedMotion="user">
     <div className="flex flex-col min-h-screen">
       {showLayout && <Navbar />}
 
-      <main className="flex-1">
+      <div className="flex flex-1 w-full">
+        {showSidebar && <Sidebar />}
+        <main className="flex-1 min-w-0">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
@@ -89,9 +104,12 @@ function App() {
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           <Route path="/resume-builder" element={<ProtectedRoute><ResumeBuilder /></ProtectedRoute>} />
+          <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
 
           {/* Recruiter Routes */}
           <Route path="/recruiter/dashboard" element={<RoleRoute roles={['recruiter']}><RecruiterDashboard /></RoleRoute>} />
+          <Route path="/recruiter/jobs" element={<RoleRoute roles={['recruiter']}><MyJobs /></RoleRoute>} />
+          <Route path="/recruiter/analytics" element={<RoleRoute roles={['recruiter']}><RecruiterAnalytics /></RoleRoute>} />
           <Route path="/recruiter/company" element={<RoleRoute roles={['recruiter']}><ManageCompany /></RoleRoute>} />
           <Route path="/recruiter/jobs/new" element={<RoleRoute roles={['recruiter']}><PostJob /></RoleRoute>} />
           <Route path="/recruiter/jobs/:id/edit" element={<RoleRoute roles={['recruiter']}><PostJob /></RoleRoute>} />
@@ -100,11 +118,17 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={<RoleRoute roles={['admin']}><AdminDashboard /></RoleRoute>} />
+          <Route path="/admin/users" element={<RoleRoute roles={['admin']}><AdminUsers /></RoleRoute>} />
+          <Route path="/admin/jobs" element={<RoleRoute roles={['admin']}><AdminJobs /></RoleRoute>} />
+          <Route path="/admin/companies" element={<RoleRoute roles={['admin']}><AdminCompanies /></RoleRoute>} />
+          <Route path="/admin/verification" element={<RoleRoute roles={['admin']}><AdminVerification /></RoleRoute>} />
+          <Route path="/admin/analytics" element={<RoleRoute roles={['admin']}><AdminAnalytics /></RoleRoute>} />
           <Route path="/admin/*" element={<RoleRoute roles={['admin']}><AdminDashboard /></RoleRoute>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </main>
+        </main>
+      </div>
 
       {showLayout && <Footer />}
     </div>

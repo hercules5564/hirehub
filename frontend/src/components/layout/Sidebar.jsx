@@ -41,7 +41,7 @@ const Sidebar = () => {
   const workspaceLabel = isAdmin ? 'Admin' : isRecruiter ? 'Recruiter' : 'Candidate';
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 min-h-[calc(100vh-4rem)] bg-[#0a0a0a] border-r border-white/[0.08] pt-6 pb-8 px-3">
+    <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-16 self-start h-[calc(100vh-4rem)] overflow-y-auto bg-[#0a0a0a] border-r border-white/[0.08] pt-6 pb-8 px-3">
       {/* Workspace eyebrow */}
       <div className="px-3 mb-4">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full">
