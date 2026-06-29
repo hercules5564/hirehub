@@ -2,7 +2,8 @@
 
 A full-stack MERN job portal with **AI résumé↔job matching**, online **payments**, and separate workspaces for candidates, recruiters, and admins. Built with a premium dark UI.
 
-> **Live demo:** _add your Vercel URL here after deploying_
+> **Live demo:** https://hirehub-umber.vercel.app
+> _(Backend on Render free tier — the first request after ~15 min idle may take 30–60s to wake.)_
 
 ---
 
