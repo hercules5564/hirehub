@@ -1,15 +1,25 @@
+const path = require('path');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('../config/cloudinary');
 
-// Resume upload storage
+// Resume upload storage.
+// For `raw` resources, Cloudinary's delivery URL only carries a file extension
+// if the public_id includes one — otherwise the browser downloads an
+// extension-less "file" instead of a recognizable .pdf/.docx. So bake the
+// original extension into the public_id.
 const resumeStorage = new CloudinaryStorage({
   cloudinary,
-  params: {
-    folder: 'hirehub/resumes',
-    resource_type: 'raw',
-    allowed_formats: ['pdf', 'doc', 'docx'],
-    transformation: [],
+  params: (req, file) => {
+    const ext = (path.extname(file.originalname).slice(1) || 'pdf').toLowerCase();
+    const base = (path.parse(file.originalname).name || 'resume')
+      .replace(/[^a-zA-Z0-9_-]/g, '_')
+      .slice(0, 60);
+    return {
+      folder: 'hirehub/resumes',
+      resource_type: 'raw',
+      public_id: `${base}_${Date.now()}.${ext}`,
+    };
   },
 });
 

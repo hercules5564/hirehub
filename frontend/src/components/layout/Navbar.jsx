@@ -39,7 +39,7 @@ const Navbar = () => {
   };
 
   const navLinks = [
-    { to: '/jobs', label: 'Find Jobs', show: true },
+    { to: '/jobs', label: 'Find Jobs', show: !isRecruiter && !isAdmin },
     { to: '/about', label: 'About', show: true },
     { to: '/contact', label: 'Contact', show: true },
   ];

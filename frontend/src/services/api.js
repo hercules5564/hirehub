@@ -78,10 +78,19 @@ export const getAdminStatsAPI = () => API.get('/admin/stats');
 export const getAdminUsersAPI = (params) => API.get('/admin/users', { params });
 export const updateAdminUserAPI = (id, data) => API.put(`/admin/users/${id}`, data);
 export const deleteAdminUserAPI = (id) => API.delete(`/admin/users/${id}`);
+export const getAdminJobsAPI = (params) => API.get('/admin/jobs', { params });
 export const moderateJobAPI = (id, data) => API.put(`/admin/jobs/${id}/moderate`, data);
+export const deleteAdminJobAPI = (id) => API.delete(`/admin/jobs/${id}`);
+export const getAdminCompaniesAPI = (params) => API.get('/admin/companies', { params });
+export const deleteAdminCompanyAPI = (id) => API.delete(`/admin/companies/${id}`);
 
 // Contact / support
 export const sendContactMessageAPI = (data) => API.post('/contact', data);
+
+// Payments (Razorpay)
+export const getPaymentConfigAPI = () => API.get('/payments/config');
+export const createPaymentOrderAPI = (data) => API.post('/payments/create-order', data);
+export const verifyPaymentAPI = (data) => API.post('/payments/verify', data);
 
 // Notifications
 export const getNotificationsAPI = () => API.get('/notifications');
