@@ -82,7 +82,7 @@ const WEAK_SAMPLE_DATA = {
 };
 
 const inputClass =
-  'w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm';
+  'w-full px-3 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-ink-100 placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm transition';
 
 const TEMPLATES = [
   { id: 'modern', name: 'Modern' },
@@ -415,22 +415,22 @@ const ResumeBuilder = () => {
   const SelectedTemplate = TEMPLATE_COMPONENTS[template];
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24">
+    <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 animate-fade-in">
           <div>
-            <h1 className="text-3xl font-bold text-white">Resume Builder</h1>
-            <p className="text-sm text-white/60 mt-1">Fill in your details, pick a template, and download a clean PDF.</p>
+            <h1 className="text-3xl font-bold text-ink-900 dark:text-white">Resume Builder</h1>
+            <p className="text-sm text-ink-500 dark:text-ink-400 mt-1">Fill in your details, pick a template, and download a clean PDF.</p>
           </div>
           <div className="flex items-center gap-2 self-start sm:self-auto">
-            <button onClick={loadWeakSample} className="px-4 py-2 rounded-xl border border-white/[0.12] text-white/80 text-sm font-medium hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+            <button onClick={loadWeakSample} className="px-4 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] text-ink-800 dark:text-ink-100 text-sm font-medium hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
               Weak Sample
             </button>
-            <button onClick={loadSample} className="px-4 py-2 rounded-xl border border-white/[0.12] text-white/80 text-sm font-medium hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+            <button onClick={loadSample} className="px-4 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] text-ink-800 dark:text-ink-100 text-sm font-medium hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
               Strong Sample
             </button>
-            <button onClick={handleDownload} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 text-white text-sm font-semibold shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+            <button onClick={handleDownload} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold transition-colors">
               <HiOutlineDownload className="w-5 h-5" /> Download PDF
             </button>
           </div>
@@ -439,63 +439,63 @@ const ResumeBuilder = () => {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* ===== FORM ===== */}
           <div className="space-y-6">
-            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
-              <h3 className="font-bold text-white mb-4">Personal Details</h3>
+            <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft">
+              <h3 className="font-bold text-ink-900 dark:text-white mb-4">Personal Details</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-white/70 mb-1">Full Name</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Full Name</label>
                   <input className={inputClass} value={data.fullName} onChange={(e) => set('fullName', e.target.value)} placeholder="Jane Doe" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-white/70 mb-1">Professional Title</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Professional Title</label>
                   <input className={inputClass} value={data.title} onChange={(e) => set('title', e.target.value)} placeholder="Senior Full Stack Developer" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Email</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Email</label>
                   <input className={inputClass} value={data.email} onChange={(e) => set('email', e.target.value)} placeholder="jane@example.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Phone</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Phone</label>
                   <input className={inputClass} value={data.phone} onChange={(e) => set('phone', e.target.value)} placeholder="+1 555 000 1234" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Location</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Location</label>
                   <input className={inputClass} value={data.location} onChange={(e) => set('location', e.target.value)} placeholder="City, Country" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">Website</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">Website</label>
                   <input className={inputClass} value={data.website} onChange={(e) => set('website', e.target.value)} placeholder="yoursite.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">LinkedIn</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">LinkedIn</label>
                   <input className={inputClass} value={data.linkedin} onChange={(e) => set('linkedin', e.target.value)} placeholder="linkedin.com/in/you" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1">GitHub</label>
+                  <label className="block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1">GitHub</label>
                   <input className={inputClass} value={data.github} onChange={(e) => set('github', e.target.value)} placeholder="github.com/you" />
                 </div>
               </div>
             </section>
 
-            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
-              <h3 className="font-bold text-white mb-4">Professional Summary</h3>
+            <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft">
+              <h3 className="font-bold text-ink-900 dark:text-white mb-4">Professional Summary</h3>
               <textarea rows={4} className={`${inputClass} resize-none`} value={data.summary}
                 onChange={(e) => set('summary', e.target.value)}
                 placeholder="A short paragraph summarizing your experience, strengths, and goals." />
             </section>
 
-            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
+            <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-white">Work Experience</h3>
-                <button onClick={() => addItem('experience', emptyExperience)} className="text-sm text-indigo-300 font-medium flex items-center gap-1 hover:text-indigo-200 transition-colors">
+                <h3 className="font-bold text-ink-900 dark:text-white">Work Experience</h3>
+                <button onClick={() => addItem('experience', emptyExperience)} className="text-sm text-primary-600 dark:text-primary-400 font-medium flex items-center gap-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
                   <HiOutlinePlus className="w-4 h-4" /> Add
                 </button>
               </div>
               <div className="space-y-5">
                 {data.experience.map((exp, i) => (
-                  <div key={i} className="p-4 rounded-xl border border-white/[0.08] relative">
+                  <div key={i} className="p-4 rounded-lg border border-ink-200 dark:border-[#262c36] relative">
                     {data.experience.length > 1 && (
-                      <button onClick={() => removeItem('experience', i)} className="absolute top-3 right-3 text-white/50 hover:text-rose-400 transition-colors">
+                      <button onClick={() => removeItem('experience', i)} className="absolute top-3 right-3 text-ink-400 hover:text-danger transition-colors">
                         <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     )}
@@ -516,18 +516,18 @@ const ResumeBuilder = () => {
               </div>
             </section>
 
-            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
+            <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-white">Education</h3>
-                <button onClick={() => addItem('education', emptyEducation)} className="text-sm text-indigo-300 font-medium flex items-center gap-1 hover:text-indigo-200 transition-colors">
+                <h3 className="font-bold text-ink-900 dark:text-white">Education</h3>
+                <button onClick={() => addItem('education', emptyEducation)} className="text-sm text-primary-600 dark:text-primary-400 font-medium flex items-center gap-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
                   <HiOutlinePlus className="w-4 h-4" /> Add
                 </button>
               </div>
               <div className="space-y-5">
                 {data.education.map((edu, i) => (
-                  <div key={i} className="p-4 rounded-xl border border-white/[0.08] relative">
+                  <div key={i} className="p-4 rounded-lg border border-ink-200 dark:border-[#262c36] relative">
                     {data.education.length > 1 && (
-                      <button onClick={() => removeItem('education', i)} className="absolute top-3 right-3 text-white/50 hover:text-rose-400 transition-colors">
+                      <button onClick={() => removeItem('education', i)} className="absolute top-3 right-3 text-ink-400 hover:text-danger transition-colors">
                         <HiOutlineTrash className="w-4 h-4" />
                       </button>
                     )}
@@ -545,12 +545,12 @@ const ResumeBuilder = () => {
               </div>
             </section>
 
-            <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1]">
-              <h3 className="font-bold text-white mb-4">Skills</h3>
+            <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft">
+              <h3 className="font-bold text-ink-900 dark:text-white mb-4">Skills</h3>
               <div className="flex flex-wrap gap-2 mb-4">
                 {data.skills.map((s) => (
-                  <span key={s} className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/15 text-indigo-300 flex items-center gap-1">
-                    {s} <button onClick={() => removeSkill(s)} className="hover:text-white transition-colors"><HiOutlineX className="w-3 h-3" /></button>
+                  <span key={s} className="text-xs px-2.5 py-1 rounded-md bg-primary-50 dark:bg-primary-600/15 text-primary-700 dark:text-primary-300 flex items-center gap-1">
+                    {s} <button onClick={() => removeSkill(s)} className="hover:text-primary-900 dark:hover:text-white transition-colors"><HiOutlineX className="w-3 h-3" /></button>
                   </span>
                 ))}
               </div>
@@ -559,7 +559,7 @@ const ResumeBuilder = () => {
                   onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
                   placeholder="Add a skill..." list="rb-skills" className={inputClass} />
                 <datalist id="rb-skills">{SKILLS_LIST.map((s) => <option key={s} value={s} />)}</datalist>
-                <button onClick={addSkill} className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-rose-500 text-white text-sm font-medium flex-shrink-0 shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300"><HiOutlinePlus className="w-4 h-4" /></button>
+                <button onClick={addSkill} className="px-4 py-2 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium flex-shrink-0 transition-colors"><HiOutlinePlus className="w-4 h-4" /></button>
               </div>
             </section>
           </div>
@@ -568,14 +568,14 @@ const ResumeBuilder = () => {
           <div className="lg:sticky lg:top-24 h-fit space-y-4">
             {/* Template picker */}
             <div className="flex items-center gap-2 print:hidden">
-              <span className="text-xs uppercase tracking-wide text-white/50 font-semibold mr-1">Template</span>
+              <span className="text-xs uppercase tracking-wide text-ink-500 dark:text-ink-400 font-semibold mr-1">Template</span>
               <div className="flex flex-wrap gap-1.5">
                 {TEMPLATES.map((t) => (
                   <button key={t.id} onClick={() => setTemplate(t.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
                       template === t.id
-                        ? 'bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)]'
-                        : 'bg-white/[0.06] text-white/70 border border-white/[0.1] hover:bg-white/[0.1] hover:text-white'
+                        ? 'bg-primary-50 text-primary-700 border-primary-200 dark:bg-primary-600/15 dark:text-primary-300 dark:border-primary-600/30'
+                        : 'bg-white dark:bg-[#161b22] text-ink-600 dark:text-ink-300 border-ink-200 dark:border-[#262c36] hover:bg-ink-50 dark:hover:bg-white/[0.04] hover:text-ink-900 dark:hover:text-white'
                     }`}>
                     {t.name}
                   </button>

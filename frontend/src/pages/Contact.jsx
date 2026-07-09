@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { HiOutlineMail, HiOutlineLocationMarker, HiOutlinePhone, HiOutlineChatAlt2, HiOutlinePaperAirplane } from 'react-icons/hi';
+import { HiOutlineMail, HiOutlineLocationMarker, HiOutlinePhone, HiOutlinePaperAirplane } from 'react-icons/hi';
 import toast from 'react-hot-toast';
-import { ShaderCanvas } from '@/components/ui/interactive-shader';
 import { sendContactMessageAPI } from '../services/api';
+
+const inputClass = 'w-full rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] px-3.5 py-2.5 text-ink-900 dark:text-white placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition text-sm';
+const labelClass = 'block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1.5';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -24,78 +26,74 @@ const Contact = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#030303] text-white pt-24">
-      {/* Interactive WebGL shader background (mouse-reactive flow field) */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <ShaderCanvas hue={248} speed={0.3} intensity={0.75} complexity={5} />
-        {/* Dim + vignette so the form stays readable */}
-        <div className="absolute inset-0 bg-[#030303]/70"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#030303]/50 via-transparent to-[#030303]"></div>
-      </div>
-
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-16">
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-4">
-            <HiOutlineChatAlt2 className="w-4 h-4" /> Contact Us
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 text-balance">Get in <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Touch</span></h1>
-          <p className="text-lg text-white/60 max-w-xl mx-auto text-balance">Have questions? We'd love to hear from you. Our team typically replies within one business day.</p>
+    <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
+      {/* ===== Hero ===== */}
+      <section className="bg-ink-50 dark:bg-[#11161f] border-b border-ink-200 dark:border-[#262c36]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+          <p className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-3">Contact us</p>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-ink-900 dark:text-white text-balance leading-[1.1]">
+            Get in touch
+          </h1>
+          <p className="mt-5 text-lg text-ink-600 dark:text-ink-400 max-w-xl mx-auto text-balance">
+            Have questions? We'd love to hear from you. Our team typically replies within one business day.
+          </p>
         </div>
+      </section>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+      {/* ===== Body ===== */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid lg:grid-cols-3 gap-6">
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {[
               { icon: HiOutlineMail, title: 'Email', info: 'hirhubsupport@gmail.com' },
               { icon: HiOutlinePhone, title: 'Phone', info: '+91 1800-123-4567' },
               { icon: HiOutlineLocationMarker, title: 'Address', info: 'Bangalore, Karnataka, India' },
             ].map((c, i) => (
-              <div key={i} className="group bg-white/[0.03] border border-white/[0.1] rounded-2xl p-5 hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center mb-3 text-white shadow-lg group-hover:scale-110 group-hover:-rotate-6 transition-transform">
-                  <c.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="font-semibold text-white">{c.title}</h3>
-                <p className="text-sm text-white/60">{c.info}</p>
+              <div key={i} className="rounded-xl p-5 bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36]">
+                <span className="w-11 h-11 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center mb-3">
+                  <c.icon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                </span>
+                <h3 className="font-semibold text-ink-900 dark:text-white">{c.title}</h3>
+                <p className="text-sm text-ink-600 dark:text-ink-400 mt-0.5">{c.info}</p>
               </div>
             ))}
 
             {/* Support hours card */}
-            <div className="rounded-2xl bg-gradient-to-br from-indigo-500 to-rose-500 text-white p-5 shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] overflow-hidden relative">
-              <div className="relative">
-                <h3 className="font-semibold text-white mb-1">Support Hours</h3>
-                <p className="text-sm text-white/80">Mon - Fri, 9:00 AM - 6:00 PM IST</p>
-              </div>
+            <div className="rounded-xl p-5 bg-primary-50 dark:bg-primary-600/10 border border-primary-100 dark:border-primary-600/20">
+              <h3 className="font-semibold text-ink-900 dark:text-white mb-1">Support Hours</h3>
+              <p className="text-sm text-ink-600 dark:text-ink-400">Mon - Fri, 9:00 AM - 6:00 PM IST</p>
             </div>
           </div>
 
           {/* Form */}
-          <div className="lg:col-span-2 bg-white/[0.03] border border-white/[0.1] rounded-2xl p-8">
-            <h2 className="text-xl font-semibold text-white mb-1">Send us a message</h2>
-            <p className="text-sm text-white/60 mb-6">Fill out the form and we'll be in touch shortly.</p>
+          <div className="lg:col-span-2 bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-8">
+            <h2 className="text-xl font-semibold text-ink-900 dark:text-white mb-1">Send us a message</h2>
+            <p className="text-sm text-ink-600 dark:text-ink-400 mb-6">Fill out the form and we'll be in touch shortly.</p>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1.5">Name *</label>
+                  <label className={labelClass}>Name *</label>
                   <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm transition-shadow" />
+                    className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white/70 mb-1.5">Email *</label>
+                  <label className={labelClass}>Email *</label>
                   <input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm transition-shadow" />
+                    className={inputClass} />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">Subject</label>
+                <label className={labelClass}>Subject</label>
                 <input type="text" value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm transition-shadow" />
+                  className={inputClass} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-white/70 mb-1.5">Message *</label>
+                <label className={labelClass}>Message *</label>
                 <textarea rows={5} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm resize-none transition-shadow" />
+                  className={`${inputClass} resize-none`} />
               </div>
-              <button type="submit" disabled={sending} className="w-full inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 disabled:opacity-60 disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+              <button type="submit" disabled={sending} className="w-full inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-lg font-semibold bg-primary-600 hover:bg-primary-700 text-white transition-colors disabled:opacity-60">
                 {sending ? 'Sending…' : (<><HiOutlinePaperAirplane className="w-5 h-5 -rotate-45" /> Send Message</>)}
               </button>
             </form>

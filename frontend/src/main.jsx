@@ -7,9 +7,9 @@ import { store } from './redux/store';
 import App from './App';
 import './index.css';
 
-// Apply saved theme
+// Apply saved theme (light-first: only go dark if the user explicitly chose it).
 const theme = localStorage.getItem('theme');
-if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+if (theme === 'dark') {
   document.documentElement.classList.add('dark');
 }
 
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <App />
         <Toaster position="top-right" toastOptions={{
           duration: 3000,
-          style: { borderRadius: '12px', background: '#1e293b', color: '#f1f5f9', fontSize: '14px' },
+          style: { borderRadius: '8px', background: '#111827', color: '#f9fafb', fontSize: '14px', border: '1px solid #1f2937' },
         }} />
       </BrowserRouter>
     </Provider>

@@ -92,24 +92,24 @@ const AdminUsers = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030303] text-white pt-24 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-white/10 border-t-indigo-400 rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24 flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-ink-200 dark:border-[#262c36] border-t-primary-600 dark:border-t-primary-400 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24">
+    <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-3">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-600/10 px-3 py-1 rounded-md mb-3">
             <HiOutlineShieldCheck className="w-4 h-4" /> Admin Console
           </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white">
-            Manage <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Users</span>
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white">
+            Manage Users
           </h1>
-          <p className="text-white/60 mt-2">All registered accounts</p>
+          <p className="text-ink-500 dark:text-ink-400 mt-2">All registered accounts</p>
         </div>
 
         {/* Filters */}
@@ -117,7 +117,7 @@ const AdminUsers = () => {
           <select
             value={role}
             onChange={onRoleFilter}
-            className="px-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm [&>option]:bg-[#0a0a0a] [&>option]:text-white"
+            className="px-4 py-2.5 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm transition [&>option]:bg-white dark:[&>option]:bg-[#161b22] [&>option]:text-ink-900 dark:[&>option]:text-white"
           >
             <option value="">All Roles</option>
             <option value="candidate">Candidate</option>
@@ -125,50 +125,50 @@ const AdminUsers = () => {
             <option value="admin">Admin</option>
           </select>
           <div className="relative flex-1 max-w-md">
-            <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
+            <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-400 pointer-events-none" />
             <input
               type="text"
               value={search}
               onChange={onSearch}
               placeholder="Search by name or email..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm"
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-white placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm transition"
             />
           </div>
         </div>
 
         {/* Table */}
-        <div className="bg-white/[0.03] rounded-2xl border border-white/[0.1] overflow-hidden">
+        <div className="bg-white dark:bg-[#161b22] rounded-xl border border-ink-200 dark:border-[#262c36] overflow-hidden">
           {users.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-indigo-300">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
                 <HiOutlineUserCircle className="w-7 h-7" />
               </div>
-              <p className="text-sm text-white/60">No users match your filters.</p>
+              <p className="text-sm text-ink-500 dark:text-ink-400">No users match your filters.</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-white/[0.04]">
+                <thead className="bg-ink-50 dark:bg-white/[0.03]">
                   <tr>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">User</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Role</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Verified</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Status</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-white/50 uppercase tracking-wider">Joined</th>
-                    <th className="px-6 py-3.5 text-right text-xs font-semibold text-white/50 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">User</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">Verified</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">Joined</th>
+                    <th className="px-6 py-3.5 text-right text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.08]">
+                <tbody className="divide-y divide-ink-200 dark:divide-[#262c36]">
                   {users.map((u) => (
-                    <tr key={u?._id} className="hover:bg-white/[0.04] transition-colors">
+                    <tr key={u?._id} className="hover:bg-ink-50 dark:hover:bg-white/[0.03] transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white text-sm font-semibold uppercase shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] flex-shrink-0">
+                          <div className="w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 text-sm font-semibold uppercase flex-shrink-0">
                             {u?.name?.charAt(0)}
                           </div>
                           <div className="min-w-0">
-                            <p className="text-sm font-semibold text-white truncate">{u?.name}</p>
-                            <p className="text-xs text-white/50 truncate">{u?.email}</p>
+                            <p className="text-sm font-semibold text-ink-900 dark:text-white truncate">{u?.name}</p>
+                            <p className="text-xs text-ink-500 dark:text-ink-400 truncate">{u?.email}</p>
                           </div>
                         </div>
                       </td>
@@ -176,7 +176,7 @@ const AdminUsers = () => {
                         <select
                           value={u?.role || 'candidate'}
                           onChange={(e) => handleRoleChange(u._id, e.target.value)}
-                          className="px-3 py-1.5 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm capitalize [&>option]:bg-[#0a0a0a] [&>option]:text-white"
+                          className="px-3 py-1.5 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-white focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm capitalize transition [&>option]:bg-white dark:[&>option]:bg-[#161b22] [&>option]:text-ink-900 dark:[&>option]:text-white"
                         >
                           <option value="candidate">Candidate</option>
                           <option value="recruiter">Recruiter</option>
@@ -186,7 +186,7 @@ const AdminUsers = () => {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => toggleVerified(u._id, u?.isVerified)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold capitalize transition-colors ${u?.isVerified ? 'bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25' : 'bg-white/[0.06] text-white/70 hover:bg-white/[0.1]'}`}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold capitalize transition-colors ${u?.isVerified ? 'bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-500/20' : 'bg-ink-100 text-ink-600 dark:bg-white/[0.06] dark:text-ink-300 hover:bg-ink-200 dark:hover:bg-white/[0.1]'}`}
                         >
                           <HiOutlineBadgeCheck className="w-3.5 h-3.5" />
                           {u?.isVerified ? 'Verified' : 'Unverified'}
@@ -195,19 +195,19 @@ const AdminUsers = () => {
                       <td className="px-6 py-4">
                         <button
                           onClick={() => toggleActive(u._id, u?.isActive)}
-                          className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize transition-colors ${u?.isActive ? 'bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25' : 'bg-rose-500/15 text-rose-300 hover:bg-rose-500/25'}`}
+                          className={`px-2.5 py-1 rounded-md text-xs font-semibold capitalize transition-colors ${u?.isActive ? 'bg-green-50 text-green-700 dark:bg-green-500/10 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-500/20' : 'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20'}`}
                         >
                           {u?.isActive ? 'Active' : 'Inactive'}
                         </button>
                       </td>
-                      <td className="px-6 py-4 text-sm text-white/50">
+                      <td className="px-6 py-4 text-sm text-ink-500 dark:text-ink-400">
                         {u?.createdAt ? new Date(u.createdAt).toLocaleDateString() : '—'}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => handleDelete(u._id)}
-                            className="p-2 rounded-lg hover:bg-rose-500/15 text-white/60 hover:text-rose-300 transition-colors"
+                            className="p-2 rounded-lg hover:bg-ink-100 dark:hover:bg-white/[0.06] text-ink-500 dark:text-ink-400 hover:text-danger transition-colors"
                             title="Delete user"
                           >
                             <HiOutlineTrash className="w-4 h-4" />
@@ -225,24 +225,24 @@ const AdminUsers = () => {
         {/* Pagination */}
         {users.length > 0 && (
           <div className="flex items-center justify-between mt-6 gap-4">
-            <p className="text-sm text-white/50">
+            <p className="text-sm text-ink-500 dark:text-ink-400">
               {pagination?.total || 0} total {(pagination?.total || 0) === 1 ? 'user' : 'users'}
             </p>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-white/[0.06] text-white/80 hover:bg-white/[0.1] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-ink-300 dark:border-[#262c36] text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.04] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <HiOutlineChevronLeft className="w-4 h-4" /> Prev
               </button>
-              <span className="text-sm text-white/60">
+              <span className="text-sm text-ink-500 dark:text-ink-400">
                 Page {pagination?.page || page} of {pagination?.pages || 1}
               </span>
               <button
                 onClick={() => setPage((p) => Math.min(pagination?.pages || 1, p + 1))}
                 disabled={page >= (pagination?.pages || 1)}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-white/[0.06] text-white/80 hover:bg-white/[0.1] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-ink-300 dark:border-[#262c36] text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.04] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 Next <HiOutlineChevronRight className="w-4 h-4" />
               </button>

@@ -54,9 +54,13 @@ function App() {
   const location = useLocation();
   const { isAuthenticated } = useSelector((s) => s.auth);
 
-  // Theme toggle was removed — the app is dark-only now. Force dark on load.
+  const { mode } = useSelector((s) => s.theme);
+
+  // Apply the persisted / system theme on load (light-first: defaults to light
+  // unless the user saved 'dark' or their OS prefers dark).
   useEffect(() => {
-    dispatch(setTheme('dark'));
+    dispatch(setTheme(mode));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   useEffect(() => {

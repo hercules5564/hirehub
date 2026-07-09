@@ -8,7 +8,6 @@ import useAuth from '../hooks/useAuth';
 import { timeAgo } from '../utils/helpers';
 import { APPLICATION_STATUS } from '../utils/constants';
 import { HiOutlineBriefcase, HiOutlineClipboardCheck, HiOutlineEye, HiOutlineCalendar, HiOutlineArrowRight, HiOutlineBookmark, HiOutlineDocumentText, HiOutlineSparkles, HiOutlineUserCircle } from 'react-icons/hi';
-import { ShaderAnimation } from '@/components/ui/shader-lines';
 
 const CandidateDashboard = () => {
   const dispatch = useDispatch();
@@ -44,69 +43,65 @@ const CandidateDashboard = () => {
   };
 
   const stats = [
-    { icon: HiOutlineClipboardCheck, label: 'Applications', value: myApplications.length, color: 'from-indigo-500 to-rose-500' },
-    { icon: HiOutlineCalendar, label: 'Interviews', value: myApplications.filter((a) => a.status === 'interview').length, color: 'from-indigo-500 to-rose-500' },
-    { icon: HiOutlineBookmark, label: 'Saved Jobs', value: savedJobs.length, color: 'from-indigo-500 to-rose-500' },
-    { icon: HiOutlineEye, label: 'Profile Views', value: user?.profileViews || 0, color: 'from-indigo-500 to-rose-500' },
+    { icon: HiOutlineClipboardCheck, label: 'Applications', value: myApplications.length },
+    { icon: HiOutlineCalendar, label: 'Interviews', value: myApplications.filter((a) => a.status === 'interview').length },
+    { icon: HiOutlineBookmark, label: 'Saved Jobs', value: savedJobs.length },
+    { icon: HiOutlineEye, label: 'Profile Views', value: user?.profileViews || 0 },
   ];
 
   const profileCompletion = [user?.name, user?.email, user?.phone, user?.bio, user?.skills?.length, user?.resumeUrl].filter(Boolean).length * 17;
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* ===== Welcome header ===== */}
-        <div className="relative mb-8 overflow-hidden rounded-3xl border border-white/[0.1] text-white bg-black">
-          {/* Shader-lines banner background */}
-          <ShaderAnimation />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/40 to-[#030303]/70"></div>
-          <div className="relative z-10 px-6 sm:px-10 py-16 sm:py-24">
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 border border-white/[0.1] px-3 py-1 rounded-full mb-4">
-              <HiOutlineSparkles className="w-4 h-4" /> Your Dashboard
-            </span>
-            <h1 className="text-3xl sm:text-4xl font-bold text-balance text-white">
-              Welcome, <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">{user?.name?.split(' ')[0]}</span>!
-            </h1>
-            <p className="text-white/60 mt-2">Here's your career overview at a glance</p>
-          </div>
+    <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
+      {/* ===== Welcome header ===== */}
+      <div className="border-b border-ink-200 dark:border-[#262c36] bg-ink-50 dark:bg-[#11161f]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white text-balance">
+            Welcome, {user?.name?.split(' ')[0]}
+          </h1>
+          <p className="text-ink-500 dark:text-ink-400 mt-1.5">Here's your career overview at a glance</p>
         </div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* ===== Stats ===== */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((s, i) => (
-            <div key={i} className="group bg-white/[0.03] border border-white/[0.1] p-5 rounded-2xl hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300">
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-3 shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] group-hover:scale-110 group-hover:-rotate-6 transition-transform`}>
-                <s.icon className="w-6 h-6 text-white" />
+            <div key={i} className="flex items-center gap-3.5 p-5 rounded-xl bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] shadow-soft">
+              <span className="w-10 h-10 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center flex-shrink-0">
+                <s.icon className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+              </span>
+              <div>
+                <p className="text-2xl font-bold text-ink-900 dark:text-white leading-none">{s.value}</p>
+                <p className="text-sm text-ink-500 dark:text-ink-400 mt-1">{s.label}</p>
               </div>
-              <p className="text-3xl font-bold text-white">{s.value}</p>
-              <p className="text-sm text-white/60">{s.label}</p>
             </div>
           ))}
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* ===== Recent applications ===== */}
-          <div className="lg:col-span-2 bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
+          <div className="lg:col-span-2 bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6 shadow-soft">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-lg font-bold text-white">Recent <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Applications</span></h2>
-              <Link to="/applications" className="text-sm text-indigo-300 font-semibold flex items-center gap-1 hover:gap-2 transition-all">View All <HiOutlineArrowRight className="w-4 h-4" /></Link>
+              <h2 className="text-lg font-bold text-ink-900 dark:text-white">Recent Applications</h2>
+              <Link to="/applications" className="text-sm text-primary-600 dark:text-primary-400 font-semibold inline-flex items-center gap-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">View All <HiOutlineArrowRight className="w-4 h-4" /></Link>
             </div>
             {myApplications.length === 0 ? (
               <div className="text-center py-12">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-indigo-500/15 flex items-center justify-center">
-                  <HiOutlineBriefcase className="w-8 h-8 text-indigo-300" />
+                <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
+                  <HiOutlineBriefcase className="w-8 h-8" />
                 </div>
-                <p className="text-white/60 mb-4">No applications yet — start exploring roles</p>
-                <Link to="/jobs" className="inline-flex items-center justify-center bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 text-sm font-semibold px-5 py-2.5 rounded-xl">Browse Jobs</Link>
+                <p className="text-ink-500 dark:text-ink-400 mb-4">No applications yet — start exploring roles</p>
+                <Link to="/jobs" className="btn-primary">Browse Jobs</Link>
               </div>
             ) : (
               <div className="space-y-3">
                 {myApplications.slice(0, 5).map((app) => (
-                  <div key={app._id} className="flex items-center gap-4 p-3 rounded-xl border border-white/[0.08] hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300">
-                    <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white font-bold text-sm shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] shrink-0">{app.jobId?.companyId?.companyName?.[0] || 'J'}</div>
+                  <div key={app._id} className="flex items-center gap-4 p-3 rounded-lg border border-ink-200 dark:border-[#262c36] hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
+                    <div className="w-11 h-11 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 font-bold text-sm shrink-0">{app.jobId?.companyId?.companyName?.[0] || 'J'}</div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white text-sm truncate">{app.jobId?.title || 'Job'}</p>
-                      <p className="text-xs text-white/50 truncate">{app.jobId?.companyId?.companyName} • {timeAgo(app.appliedAt)}</p>
+                      <p className="font-semibold text-ink-900 dark:text-white text-sm truncate">{app.jobId?.title || 'Job'}</p>
+                      <p className="text-xs text-ink-500 dark:text-ink-400 truncate">{app.jobId?.companyId?.companyName} • {timeAgo(app.appliedAt)}</p>
                     </div>
                     <span className={`badge text-xs ${APPLICATION_STATUS[app.status]?.color || ''}`}>{APPLICATION_STATUS[app.status]?.label || app.status}</span>
                   </div>
@@ -117,61 +112,61 @@ const CandidateDashboard = () => {
 
           {/* ===== Sidebar ===== */}
           <div className="space-y-6">
-            {/* AI Auto-Apply */}
-            <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
+            {/* Auto-Apply */}
+            <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6 shadow-soft">
               <div className="flex items-center justify-between gap-3 mb-1">
-                <h3 className="flex items-center gap-2 font-bold text-white">
-                  <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] shrink-0">
+                <h3 className="flex items-center gap-2 font-bold text-ink-900 dark:text-white">
+                  <span className="w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
                     <HiOutlineSparkles className="w-5 h-5" />
                   </span>
-                  AI Auto-Apply
+                  Auto-Apply
                 </h3>
                 <button role="switch" aria-checked={autoEnabled} aria-label="Toggle auto-apply" onClick={toggleAuto}
-                  className={`relative w-11 h-6 rounded-full transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303] ${autoEnabled ? 'bg-gradient-to-r from-indigo-500 to-rose-500' : 'bg-white/[0.12]'}`}>
+                  className={`relative w-11 h-6 rounded-full transition-colors shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 ${autoEnabled ? 'bg-primary-600' : 'bg-ink-200 dark:bg-white/[0.12]'}`}>
                   <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white transition-transform ${autoEnabled ? 'translate-x-5' : ''}`} />
                 </button>
               </div>
-              <p className="text-sm text-white/60 mb-4">Let AI scan open roles and auto-apply to the ones that match your skills.</p>
+              <p className="text-sm text-ink-500 dark:text-ink-400 mb-4">Automatically scan open roles and apply to the ones that match your skills.</p>
               <div className="mb-4">
-                <div className="flex justify-between text-xs text-white/70 mb-1.5">
-                  <span>Minimum match</span><span className="font-semibold text-indigo-300">{minScore}%</span>
+                <div className="flex justify-between text-xs text-ink-600 dark:text-ink-300 mb-1.5">
+                  <span>Minimum match</span><span className="font-semibold text-primary-600 dark:text-primary-400">{minScore}%</span>
                 </div>
                 <input type="range" min="40" max="95" step="5" value={minScore}
                   onChange={(e) => setMinScore(Number(e.target.value))}
                   onMouseUp={() => saveAuto({ enabled: autoEnabled, minMatchScore: minScore })}
                   onTouchEnd={() => saveAuto({ enabled: autoEnabled, minMatchScore: minScore })}
-                  className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/[0.1] accent-indigo-400" />
+                  className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-ink-200 dark:bg-white/[0.1] accent-primary-600" />
               </div>
               <button onClick={runNow} disabled={running}
-                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 disabled:opacity-60 disabled:hover:scale-100">
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold bg-primary-600 hover:bg-primary-700 text-white transition-colors disabled:opacity-60">
                 {running ? 'Scanning jobs…' : (<><HiOutlineSparkles className="w-5 h-5" /> Run auto-apply now</>)}
               </button>
             </div>
 
-            <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
-              <h3 className="flex items-center gap-2 font-bold text-white mb-4">
-                <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] shrink-0">
+            <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6 shadow-soft">
+              <h3 className="flex items-center gap-2 font-bold text-ink-900 dark:text-white mb-4">
+                <span className="w-9 h-9 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
                   <HiOutlineUserCircle className="w-5 h-5" />
                 </span>
                 Profile Completion
               </h3>
-              <div className="w-full h-3 rounded-full bg-white/[0.06] mb-3 overflow-hidden">
-                <div className="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-rose-500 transition-all duration-700" style={{ width: `${Math.min(profileCompletion, 100)}%` }}></div>
+              <div className="w-full h-2.5 rounded-full bg-ink-100 dark:bg-white/[0.06] mb-3 overflow-hidden">
+                <div className="h-2.5 rounded-full bg-primary-600 transition-all duration-500" style={{ width: `${Math.min(profileCompletion, 100)}%` }}></div>
               </div>
-              <p className="text-sm text-white/60 mb-3"><span className="font-semibold text-white">{Math.min(profileCompletion, 100)}%</span> complete</p>
-              <Link to="/profile" className="text-sm text-indigo-300 font-semibold inline-flex items-center gap-1 hover:gap-2 transition-all">Complete profile <HiOutlineArrowRight className="w-4 h-4" /></Link>
+              <p className="text-sm text-ink-500 dark:text-ink-400 mb-3"><span className="font-semibold text-ink-900 dark:text-white">{Math.min(profileCompletion, 100)}%</span> complete</p>
+              <Link to="/profile" className="text-sm text-primary-600 dark:text-primary-400 font-semibold inline-flex items-center gap-1 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">Complete profile <HiOutlineArrowRight className="w-4 h-4" /></Link>
             </div>
 
-            <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
-              <h3 className="font-bold text-white mb-4">Quick Actions</h3>
+            <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6 shadow-soft">
+              <h3 className="font-bold text-ink-900 dark:text-white mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 {[{ to: '/jobs', icon: HiOutlineBriefcase, label: 'Find Jobs' }, { to: '/resume-builder', icon: HiOutlineDocumentText, label: 'Resume Builder' }, { to: '/saved-jobs', icon: HiOutlineBookmark, label: 'Saved Jobs' }].map((a) => (
-                  <Link key={a.to} to={a.to} className="group flex items-center gap-3 p-3 rounded-xl border border-white/[0.08] hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300 text-sm font-semibold text-white/80">
-                    <span className="w-9 h-9 rounded-xl bg-indigo-500/15 flex items-center justify-center text-indigo-300 group-hover:scale-110 transition-transform shrink-0">
+                  <Link key={a.to} to={a.to} className="group flex items-center gap-3 p-3 rounded-lg border border-ink-200 dark:border-[#262c36] hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors text-sm font-semibold text-ink-700 dark:text-ink-200">
+                    <span className="w-9 h-9 rounded-lg bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-500 dark:text-ink-400 group-hover:bg-primary-50 dark:group-hover:bg-primary-600/10 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors shrink-0">
                       <a.icon className="w-5 h-5" />
                     </span>
                     {a.label}
-                    <HiOutlineArrowRight className="w-4 h-4 ml-auto text-white/50 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <HiOutlineArrowRight className="w-4 h-4 ml-auto text-ink-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 ))}
               </div>

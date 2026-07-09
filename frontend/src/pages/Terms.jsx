@@ -1,5 +1,3 @@
-import { HiOutlineDocumentText } from 'react-icons/hi';
-
 const sections = [
   {
     title: 'Acceptance of terms',
@@ -36,44 +34,36 @@ const sections = [
 ];
 
 const Terms = () => (
-  <div className="min-h-screen bg-[#030303] text-white">
+  <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
     {/* ===== Hero ===== */}
-    <section className="relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-10 left-10 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-16 right-10 w-80 h-80 bg-rose-500/20 rounded-full blur-3xl"></div>
-      </div>
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 pt-32 pb-20 text-center">
-        <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 border border-white/[0.1] px-3 py-1 rounded-full mb-6">
-          <HiOutlineDocumentText className="w-4 h-4" /> Legal
-        </span>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-6 text-balance text-white">
-          Terms of <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Service</span>
+    <section className="bg-ink-50 dark:bg-[#11161f] border-b border-ink-200 dark:border-[#262c36]">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+        <p className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-3">Legal</p>
+        <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-ink-900 dark:text-white text-balance leading-[1.1]">
+          Terms of Service
         </h1>
-        <p className="text-lg text-white/60 max-w-2xl mx-auto text-balance">
+        <p className="mt-5 text-lg text-ink-600 dark:text-ink-400 max-w-2xl mx-auto text-balance">
           The ground rules for using HireHub — for candidates and recruiters alike.
         </p>
       </div>
     </section>
 
     {/* ===== Content ===== */}
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
-      <div className="relative overflow-hidden bg-white/[0.03] border border-white/[0.1] rounded-2xl p-8 sm:p-10">
-        <p className="text-sm text-white/50 mb-8">Last updated: June 2026</p>
-        <div className="space-y-8">
-          {sections.map((s, i) => (
-            <section key={i}>
-              <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                <span className="text-indigo-400">{String(i + 1).padStart(2, '0')}</span>
-                {s.title}
-              </h2>
-              <p className="text-white/70 leading-relaxed">{s.body}</p>
-            </section>
-          ))}
-        </div>
-        <div className="mt-10 pt-6 border-t border-white/[0.08] text-sm text-white/60">
-          Need clarification? Get in touch via the <a href="/contact" className="text-indigo-300 font-medium hover:underline">Contact</a> page.
-        </div>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <p className="text-sm text-ink-500 dark:text-ink-400 mb-10">Last updated: June 2026</p>
+      <div className="space-y-10">
+        {sections.map((s, i) => (
+          <section key={i}>
+            <h2 className="text-xl font-semibold text-ink-900 dark:text-white mb-2.5 flex items-baseline gap-2.5">
+              <span className="text-sm font-semibold text-primary-600 dark:text-primary-400 tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+              {s.title}
+            </h2>
+            <p className="text-ink-600 dark:text-ink-400 leading-relaxed">{s.body}</p>
+          </section>
+        ))}
+      </div>
+      <div className="mt-12 pt-6 border-t border-ink-200 dark:border-[#262c36] text-sm text-ink-500 dark:text-ink-400">
+        Need clarification? Get in touch via the <a href="/contact" className="text-primary-600 dark:text-primary-400 font-medium hover:underline">Contact</a> page.
       </div>
     </div>
   </div>

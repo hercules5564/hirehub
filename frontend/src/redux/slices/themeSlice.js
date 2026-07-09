@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const getInitialTheme = () => {
+  // Light-first: only go dark if the user explicitly chose it before.
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (saved === 'dark' || saved === 'light') return saved;
   }
   return 'light';
 };

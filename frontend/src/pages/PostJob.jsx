@@ -3,12 +3,12 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createJob, updateJob, fetchJob } from '../redux/slices/jobSlice';
 import { fetchMyCompanies } from '../redux/slices/companySlice';
-import { HiOutlineArrowLeft, HiOutlineBriefcase, HiOutlineSparkles, HiOutlineExclamationCircle } from 'react-icons/hi';
+import { HiOutlineArrowLeft, HiOutlineBriefcase, HiOutlineExclamationCircle } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
 const inputClass =
-  'w-full px-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm [&>option]:bg-[#0a0a0a] [&>option]:text-white';
-const labelClass = 'block text-sm font-medium text-white/70 mb-1';
+  'w-full px-3.5 py-2.5 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-ink-100 placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm transition [&>option]:bg-white dark:[&>option]:bg-[#161b22] [&>option]:text-ink-900 dark:[&>option]:text-white';
+const labelClass = 'block text-sm font-medium text-ink-700 dark:text-ink-300 mb-1.5';
 
 const emptyForm = {
   title: '',
@@ -120,47 +120,40 @@ const PostJob = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#030303] text-white pt-20 overflow-hidden">
-      {/* Decorative ambient blobs */}
-      <div className="pointer-events-none absolute -top-10 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl"></div>
-      <div className="pointer-events-none absolute top-1/3 -left-20 w-80 h-80 bg-rose-500/20 rounded-full blur-3xl"></div>
-
-      <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link to="/recruiter/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-white/60 hover:text-indigo-300 transition-colors mb-6 group">
-          <HiOutlineArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
+    <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <Link to="/recruiter/dashboard" className="inline-flex items-center gap-2 text-sm font-medium text-ink-500 dark:text-ink-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-6 group">
+          <HiOutlineArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" /> Back to Dashboard
         </Link>
 
         <div className="flex items-center gap-4 mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] shrink-0">
-            <HiOutlineBriefcase className="w-7 h-7 text-white" />
+          <div className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 shrink-0">
+            <HiOutlineBriefcase className="w-6 h-6" />
           </div>
           <div>
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-2">
-              <HiOutlineSparkles className="w-3.5 h-3.5" /> {isEdit ? 'Edit Listing' : 'New Listing'}
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">
-              {isEdit ? 'Edit ' : 'Post a New '}<span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Job</span>
+            <p className="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-1">{isEdit ? 'Edit listing' : 'New listing'}</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white">
+              {isEdit ? 'Edit Job' : 'Post a New Job'}
             </h1>
-            <p className="text-sm text-white/60 mt-1">Fill in the details to {isEdit ? 'update your' : 'publish a new'} job listing</p>
+            <p className="text-sm text-ink-500 dark:text-ink-400 mt-1">Fill in the details to {isEdit ? 'update your' : 'publish a new'} job listing</p>
           </div>
         </div>
 
         {myCompanies.length === 0 ? (
-          <div className="relative bg-white/[0.03] border border-amber-400/30 rounded-2xl p-8 overflow-hidden">
-            <div className="absolute -top-12 -right-12 w-40 h-40 bg-amber-400/10 rounded-full blur-3xl"></div>
-            <div className="relative flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-lg shrink-0">
+          <div className="bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-xl p-8">
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 rounded-lg bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
                 <HiOutlineExclamationCircle className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-white mb-1">Create a company first</h3>
-                <p className="text-sm text-white/60 mb-4">You need a company profile before you can post jobs.</p>
-                <Link to="/recruiter/company" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300">Create Company</Link>
+                <h3 className="font-semibold text-lg text-amber-800 dark:text-amber-300 mb-1">Create a company first</h3>
+                <p className="text-sm text-amber-700 dark:text-amber-200/80 mb-4">You need a company profile before you can post jobs.</p>
+                <Link to="/recruiter/company" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-primary-600 hover:bg-primary-700 text-white transition-colors">Create Company</Link>
               </div>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6 sm:p-8 space-y-5">
+          <form onSubmit={handleSubmit} className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl shadow-soft p-6 sm:p-8 space-y-5">
             <div>
               <label className={labelClass}>Job Title *</label>
               <input type="text" value={form.title} onChange={update('title')} maxLength={100} placeholder="e.g. Senior Frontend Developer" className={inputClass} />
@@ -256,12 +249,12 @@ const PostJob = () => {
               <textarea rows={3} value={form.benefits} onChange={update('benefits')} maxLength={2000} placeholder="Health insurance, remote work, learning budget..." className={`${inputClass} resize-none`} />
             </div>
 
-            <div className="flex items-center gap-3 pt-4 border-t border-white/[0.08]">
-              <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:scale-105 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
+            <div className="flex items-center gap-3 pt-4 border-t border-ink-200 dark:border-[#262c36]">
+              <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold bg-primary-600 hover:bg-primary-700 text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed">
                 <HiOutlineBriefcase className="w-5 h-5" />
                 {submitting ? 'Saving...' : isEdit ? 'Update Job' : 'Post Job'}
               </button>
-              <Link to="/recruiter/dashboard" className="inline-flex items-center px-6 py-2.5 rounded-xl border border-white/[0.12] text-white/80 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">Cancel</Link>
+              <Link to="/recruiter/dashboard" className="inline-flex items-center px-6 py-2.5 rounded-lg font-semibold border border-ink-300 dark:border-[#262c36] text-ink-800 dark:text-ink-100 hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">Cancel</Link>
             </div>
           </form>
         )}

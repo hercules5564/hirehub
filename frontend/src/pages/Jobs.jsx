@@ -7,13 +7,10 @@ import useAuth from '../hooks/useAuth';
 import useDebounce from '../hooks/useDebounce';
 import { formatSalary, timeAgo } from '../utils/helpers';
 import { JOB_TYPES, LOCATIONS } from '../utils/constants';
-import { HiOutlineSearch, HiOutlineLocationMarker, HiOutlineCurrencyRupee, HiOutlineBriefcase, HiOutlineClock, HiOutlineBookmark, HiBookmark, HiOutlineFilter, HiOutlineX, HiOutlineSparkles, HiOutlineArrowRight, HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
-import { motion } from 'motion/react';
-import { GenerativeArtScene } from '@/components/ui/anomalous-matter-hero';
+import { HiOutlineSearch, HiOutlineLocationMarker, HiOutlineCurrencyRupee, HiOutlineBriefcase, HiOutlineClock, HiOutlineBookmark, HiBookmark, HiOutlineFilter, HiOutlineX, HiOutlineArrowRight, HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 
-const accentText = 'bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300';
-const gradientBtn = 'bg-gradient-to-r from-indigo-500 to-rose-500 text-white shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] hover:shadow-[0_8px_32px_0_rgba(244,63,94,0.4)] hover:scale-105 transition-all duration-300';
-const fieldClass = 'w-full px-3 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.1] text-sm text-white placeholder-white/50 outline-none focus:ring-2 focus:ring-indigo-400/60 [&>option]:bg-[#0a0a0a] [&>option]:text-white';
+const fieldClass = 'w-full px-3 py-2.5 rounded-lg bg-white dark:bg-[#0d1117] border border-ink-300 dark:border-[#262c36] text-sm text-ink-900 dark:text-white placeholder-ink-400 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition [&>option]:bg-white dark:[&>option]:bg-[#161b22] [&>option]:text-ink-900 dark:[&>option]:text-white';
+const labelClass = 'block text-xs font-semibold uppercase tracking-wider text-ink-500 dark:text-ink-400 mb-1.5';
 
 const Jobs = () => {
   const [searchParams] = useSearchParams();
@@ -44,64 +41,56 @@ const Jobs = () => {
   const clearFilters = () => { setFilters({ location: '', jobType: '', salaryMin: '', salaryMax: '', experienceMin: '', experienceMax: '' }); setSearch(''); };
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white">
-      {/* ===== Header with anomalous-matter 3D scene ===== */}
-      <div className="relative overflow-hidden border-b border-white/[0.06] pt-24 pb-12">
-        {/* WebGL flow-field / shader orb */}
-        <GenerativeArtScene color="#818cf8" />
-        {/* Readability overlay (darker toward the search bar) */}
-        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-[#030303]/50 via-[#030303]/40 to-[#030303] pointer-events-none" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/70 bg-white/[0.03] border border-white/[0.1] backdrop-blur-sm px-3 py-1 rounded-full mb-4">
-            <HiOutlineSparkles className="w-4 h-4 text-indigo-300" /> Explore Openings
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-balance">
-            Find Your <span className={accentText}>Perfect Job</span>
+    <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
+      {/* ===== Header ===== */}
+      <div className="border-b border-ink-200 dark:border-[#262c36] bg-ink-50 dark:bg-[#11161f]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fade-in">
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white text-balance">
+            Find your next role
           </h1>
-          <p className="text-white/60 mb-7">Browse {pagination?.total || 0} available positions</p>
+          <p className="text-ink-500 dark:text-ink-400 mt-1.5 mb-6">Browse {pagination?.total || 0} open positions</p>
 
-          <div className="flex flex-col sm:flex-row gap-3 p-2 rounded-2xl bg-white/[0.04] border border-white/[0.14] backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]">
+          <div className="flex flex-col sm:flex-row gap-2.5 p-2 rounded-xl bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] shadow-soft">
             <div className="flex-1 relative">
-              <HiOutlineSearch className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50" />
+              <HiOutlineSearch className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-400" />
               <input type="text" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                placeholder="Search jobs, skills, companies..."
-                className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/[0.06] border border-white/[0.1] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none" />
+                placeholder="Search jobs, skills, companies…"
+                className="w-full pl-11 pr-4 py-2.5 rounded-lg bg-transparent text-ink-900 dark:text-white placeholder-ink-400 outline-none" />
             </div>
             <button onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303] ${gradientBtn}`}>
+              className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg font-semibold border border-ink-300 dark:border-[#262c36] text-ink-800 dark:text-ink-100 hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
               <HiOutlineFilter className="w-5 h-5" /> Filters
             </button>
           </div>
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="mt-4 p-5 rounded-2xl bg-white/[0.03] border border-white/[0.1] backdrop-blur-md animate-fade-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="mt-3 p-5 rounded-xl bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] animate-fade-in grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1.5">Location</label>
+                <label className={labelClass}>Location</label>
                 <select value={filters.location} onChange={(e) => { setFilters({ ...filters, location: e.target.value }); setPage(1); }} className={fieldClass}>
                   <option value="">All Locations</option>
                   {LOCATIONS.map((l) => <option key={l} value={l}>{l}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1.5">Job Type</label>
+                <label className={labelClass}>Job Type</label>
                 <select value={filters.jobType} onChange={(e) => { setFilters({ ...filters, jobType: e.target.value }); setPage(1); }} className={fieldClass}>
                   <option value="">All Types</option>
                   {JOB_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1.5">Min Experience (yrs)</label>
+                <label className={labelClass}>Min Experience (yrs)</label>
                 <input type="number" min="0" value={filters.experienceMin} onChange={(e) => { setFilters({ ...filters, experienceMin: e.target.value }); setPage(1); }} className={fieldClass} placeholder="0" />
               </div>
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-white/70 mb-1.5">Max Experience (yrs)</label>
+                <label className={labelClass}>Max Experience (yrs)</label>
                 <input type="number" min="0" value={filters.experienceMax} onChange={(e) => { setFilters({ ...filters, experienceMax: e.target.value }); setPage(1); }} className={fieldClass} placeholder="10" />
               </div>
               <div className="sm:col-span-2 lg:col-span-4 flex justify-end">
-                <button onClick={clearFilters} className="inline-flex items-center gap-1 text-sm font-semibold text-white/80 hover:text-white bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.12] px-4 py-2 rounded-full transition-colors">
-                  <HiOutlineX className="w-4 h-4" /> Clear All Filters
+                <button onClick={clearFilters} className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-600 dark:text-ink-300 hover:text-ink-900 dark:hover:text-white border border-ink-300 dark:border-[#262c36] hover:bg-ink-50 dark:hover:bg-white/[0.04] px-3.5 py-1.5 rounded-lg transition-colors">
+                  <HiOutlineX className="w-4 h-4" /> Clear all filters
                 </button>
               </div>
             </div>
@@ -112,109 +101,102 @@ const Jobs = () => {
       {/* ===== Jobs Grid ===== */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="rounded-2xl p-6 bg-white/[0.03] border border-white/[0.08]">
+              <div key={i} className="rounded-xl p-6 bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36]">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/[0.06] animate-pulse"></div>
-                  <div className="flex-1"><div className="h-4 bg-white/[0.06] rounded animate-pulse w-3/4 mb-2"></div><div className="h-3 bg-white/[0.06] rounded animate-pulse w-1/2"></div></div>
+                  <div className="w-11 h-11 rounded-lg skeleton"></div>
+                  <div className="flex-1"><div className="h-4 skeleton w-3/4 mb-2"></div><div className="h-3 skeleton w-1/2"></div></div>
                 </div>
-                <div className="h-4 bg-white/[0.06] rounded animate-pulse w-full mb-2"></div>
-                <div className="h-4 bg-white/[0.06] rounded animate-pulse w-2/3 mb-4"></div>
-                <div className="flex gap-2"><div className="h-6 bg-white/[0.06] rounded-full animate-pulse w-16"></div><div className="h-6 bg-white/[0.06] rounded-full animate-pulse w-20"></div></div>
+                <div className="h-4 skeleton w-full mb-2"></div>
+                <div className="h-4 skeleton w-2/3 mb-4"></div>
+                <div className="flex gap-2"><div className="h-6 skeleton rounded-full w-16"></div><div className="h-6 skeleton rounded-full w-20"></div></div>
               </div>
             ))}
           </div>
         ) : jobs.length === 0 ? (
           <div className="text-center py-20 animate-fade-in">
-            <div className="w-20 h-20 mx-auto mb-5 rounded-2xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white shadow-[0_8px_32px_0_rgba(99,102,241,0.3)]">
-              <HiOutlineBriefcase className="w-10 h-10" />
+            <div className="w-16 h-16 mx-auto mb-5 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
+              <HiOutlineBriefcase className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">No jobs found</h3>
-            <p className="text-white/60 mb-5">Try adjusting your search or filters</p>
-            <button onClick={clearFilters} className={`px-6 py-2.5 rounded-xl font-semibold ${gradientBtn}`}>Clear Filters</button>
+            <h3 className="text-lg font-semibold text-ink-900 dark:text-white mb-1.5">No jobs found</h3>
+            <p className="text-ink-500 dark:text-ink-400 mb-5">Try adjusting your search or filters</p>
+            <button onClick={clearFilters} className="btn-primary">Clear filters</button>
           </div>
         ) : (
           <>
-            <motion.div
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
-              variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06 } } }}
-              initial="hidden"
-              animate="show"
-            >
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {jobs.map((job) => (
-                <motion.div key={job._id}
-                  variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } } }}
-                  className="relative rounded-2xl p-6 bg-white/[0.03] border border-white/[0.1] hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300 group overflow-hidden">
-                  <div className="absolute -right-10 -top-10 w-28 h-28 rounded-full bg-indigo-500/0 group-hover:bg-indigo-500/10 blur-2xl transition-all duration-500 pointer-events-none"></div>
-                  <div className="relative flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
+                <div key={job._id}
+                  className="relative rounded-xl p-6 bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] card-hover group">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3 min-w-0">
                       {job.companyId?.logo ? (
-                        <img src={job.companyId.logo} alt="" className="w-12 h-12 rounded-xl object-cover ring-1 ring-white/10" />
+                        <img src={job.companyId.logo} alt="" className="w-11 h-11 rounded-lg object-cover border border-ink-200 dark:border-[#262c36]" />
                       ) : (
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform">
+                        <div className="w-11 h-11 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 font-bold text-lg flex-shrink-0">
                           {job.companyId?.companyName?.[0] || 'C'}
                         </div>
                       )}
-                      <div>
-                        <h3 className="font-semibold text-white group-hover:text-indigo-300 transition-colors line-clamp-1">
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-ink-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-1">
                           <Link to={`/jobs/${job._id}`}>{job.title}</Link>
                         </h3>
-                        <p className="text-sm text-white/50">{job.companyId?.companyName}</p>
+                        <p className="text-sm text-ink-500 dark:text-ink-400 truncate">{job.companyId?.companyName}</p>
                       </div>
                     </div>
                     {isAuthenticated && (
-                      <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.8 }} onClick={() => handleSave(job._id)} className="text-white/50 hover:text-indigo-300 transition-colors">
-                        {savedJobIds.includes(job._id) ? <HiBookmark className="w-5 h-5 text-indigo-300" /> : <HiOutlineBookmark className="w-5 h-5" />}
-                      </motion.button>
+                      <button onClick={() => handleSave(job._id)} className="text-ink-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex-shrink-0">
+                        {savedJobIds.includes(job._id) ? <HiBookmark className="w-5 h-5 text-primary-600 dark:text-primary-400" /> : <HiOutlineBookmark className="w-5 h-5" />}
+                      </button>
                     )}
                   </div>
 
-                  <div className="relative space-y-2 mb-4 text-sm text-white/60">
+                  <div className="space-y-2 mb-4 text-sm text-ink-600 dark:text-ink-400">
                     <div className="flex items-center gap-1.5">
-                      <HiOutlineLocationMarker className="w-4 h-4 flex-shrink-0 text-indigo-400" /> <span>{job.location}</span>
+                      <HiOutlineLocationMarker className="w-4 h-4 flex-shrink-0 text-ink-400" /> <span>{job.location}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <HiOutlineCurrencyRupee className="w-4 h-4 flex-shrink-0 text-indigo-400" /> <span>{formatSalary(job.salary)}</span>
+                      <HiOutlineCurrencyRupee className="w-4 h-4 flex-shrink-0 text-ink-400" /> <span>{formatSalary(job.salary)}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <HiOutlineClock className="w-4 h-4 flex-shrink-0 text-indigo-400" /> <span>{timeAgo(job.postedDate)}</span>
+                      <HiOutlineClock className="w-4 h-4 flex-shrink-0 text-ink-400" /> <span>{timeAgo(job.postedDate)}</span>
                     </div>
                   </div>
 
-                  <div className="relative flex flex-wrap gap-1.5 mb-5">
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-500/15 text-indigo-300 capitalize">{job.jobType?.replace('-', ' ')}</span>
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-primary-50 dark:bg-primary-600/15 text-primary-700 dark:text-primary-300 capitalize">{job.jobType?.replace('-', ' ')}</span>
                     {job.skillsRequired?.slice(0, 2).map((s) => (
-                      <span key={s} className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/70">{s}</span>
+                      <span key={s} className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-ink-100 dark:bg-white/[0.06] text-ink-600 dark:text-ink-300">{s}</span>
                     ))}
                     {job.skillsRequired?.length > 2 && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/[0.06] text-white/60">+{job.skillsRequired.length - 2}</span>
+                      <span className="px-2.5 py-0.5 rounded-md text-xs font-medium bg-ink-100 dark:bg-white/[0.06] text-ink-500 dark:text-ink-400">+{job.skillsRequired.length - 2}</span>
                     )}
                   </div>
 
-                  <Link to={`/jobs/${job._id}`} className="relative flex items-center justify-center gap-1.5 w-full text-center py-2.5 rounded-xl border border-white/[0.12] text-white/80 text-sm font-semibold hover:bg-white/[0.06] hover:text-white transition-colors group/btn focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#030303]">
-                    View Details <HiOutlineArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                  <Link to={`/jobs/${job._id}`} className="flex items-center justify-center gap-1.5 w-full text-center py-2.5 rounded-lg border border-ink-300 dark:border-[#262c36] text-ink-800 dark:text-ink-100 text-sm font-semibold hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors group/btn">
+                    View details <HiOutlineArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
                   </Link>
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
 
             {/* Pagination */}
             {pagination && pagination.pages > 1 && (
               <div className="flex justify-center items-center mt-12 gap-2">
                 <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}
-                  className="flex items-center gap-1 px-4 py-2 rounded-xl border border-white/[0.1] bg-white/[0.04] text-sm font-medium text-white/70 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white/[0.08] hover:text-white transition-colors">
+                  className="flex items-center gap-1 px-3.5 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] text-sm font-medium text-ink-700 dark:text-ink-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
                   <HiOutlineChevronLeft className="w-4 h-4" /> Previous
                 </button>
                 {[...Array(Math.min(5, pagination.pages))].map((_, i) => {
                   const p = i + 1;
                   return (
                     <button key={p} onClick={() => setPage(p)}
-                      className={`w-10 h-10 rounded-xl text-sm font-semibold transition-all ${p === page ? `${gradientBtn} scale-105` : 'border border-white/[0.1] bg-white/[0.04] text-white/70 hover:bg-white/[0.08] hover:text-white'}`}>{p}</button>
+                      className={`w-10 h-10 rounded-lg text-sm font-semibold transition-colors ${p === page ? 'bg-primary-600 text-white' : 'border border-ink-300 dark:border-[#262c36] text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.04]'}`}>{p}</button>
                   );
                 })}
                 <button onClick={() => setPage(Math.min(pagination.pages, page + 1))} disabled={page === pagination.pages}
-                  className="flex items-center gap-1 px-4 py-2 rounded-xl border border-white/[0.1] bg-white/[0.04] text-sm font-medium text-white/70 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-white/[0.08] hover:text-white transition-colors">
+                  className="flex items-center gap-1 px-3.5 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] text-sm font-medium text-ink-700 dark:text-ink-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors">
                   Next <HiOutlineChevronRight className="w-4 h-4" />
                 </button>
               </div>

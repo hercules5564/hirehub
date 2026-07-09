@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
 import {
   HiOutlineCheckCircle, HiOutlineExclamationCircle, HiOutlineXCircle,
-  HiOutlineSparkles, HiOutlineBriefcase, HiOutlineChevronDown,
+  HiOutlineChartBar, HiOutlineBriefcase, HiOutlineChevronDown,
 } from 'react-icons/hi';
 import { computeAtsScore } from '../../utils/atsScore';
 
 const TONE = {
-  good: { text: 'text-emerald-400', bar: 'bg-emerald-500', ring: '#10b981', Icon: HiOutlineCheckCircle },
-  warn: { text: 'text-amber-400', bar: 'bg-amber-500', ring: '#f59e0b', Icon: HiOutlineExclamationCircle },
-  bad: { text: 'text-rose-400', bar: 'bg-rose-500', ring: '#ef4444', Icon: HiOutlineXCircle },
+  good: { text: 'text-green-600 dark:text-green-400', bar: 'bg-green-500', ring: '#16a34a', Icon: HiOutlineCheckCircle },
+  warn: { text: 'text-amber-600 dark:text-amber-400', bar: 'bg-amber-500', ring: '#d97706', Icon: HiOutlineExclamationCircle },
+  bad: { text: 'text-red-600 dark:text-red-400', bar: 'bg-red-500', ring: '#dc2626', Icon: HiOutlineXCircle },
 };
 
 // Conic-gradient ring — no SVG math, scales cleanly, respects dark mode.
@@ -19,9 +19,9 @@ const ScoreRing = ({ score, tone, size = 104 }) => {
       className="rounded-full flex items-center justify-center flex-shrink-0"
       style={{ width: size, height: size, background: `conic-gradient(${color} ${score * 3.6}deg, rgba(148,163,184,0.18) 0deg)` }}
     >
-      <div className="rounded-full bg-[#0a0a0a] flex flex-col items-center justify-center" style={{ width: size - 18, height: size - 18 }}>
+      <div className="rounded-full bg-white dark:bg-[#161b22] flex flex-col items-center justify-center" style={{ width: size - 18, height: size - 18 }}>
         <span className={`text-2xl font-bold ${TONE[tone].text}`}>{score}</span>
-        <span className="text-[10px] uppercase tracking-wider text-white/50">/ 100</span>
+        <span className="text-[10px] uppercase tracking-wider text-ink-500 dark:text-ink-400">/ 100</span>
       </div>
     </div>
   );
@@ -33,24 +33,24 @@ const CategoryRow = ({ cat }) => {
   const pct = Math.round((cat.score / cat.max) * 100);
   const hasTips = cat.tips.length > 0;
   return (
-    <div className="py-2.5 border-b border-white/[0.08] last:border-0">
+    <div className="py-2.5 border-b border-ink-200 dark:border-[#262c36] last:border-0">
       <button
         onClick={() => hasTips && setOpen((o) => !o)}
         className={`w-full flex items-center gap-3 text-left ${hasTips ? 'cursor-pointer' : 'cursor-default'}`}
       >
         <tone.Icon className={`w-4 h-4 flex-shrink-0 ${tone.text}`} />
-        <span className="text-sm text-white/70 flex-1">{cat.label}</span>
-        <span className="text-xs font-semibold text-white/60 tabular-nums">{cat.score}/{cat.max}</span>
-        {hasTips && <HiOutlineChevronDown className={`w-4 h-4 text-white/50 transition-transform ${open ? 'rotate-180' : ''}`} />}
+        <span className="text-sm text-ink-700 dark:text-ink-300 flex-1">{cat.label}</span>
+        <span className="text-xs font-semibold text-ink-500 dark:text-ink-400 tabular-nums">{cat.score}/{cat.max}</span>
+        {hasTips && <HiOutlineChevronDown className={`w-4 h-4 text-ink-400 transition-transform ${open ? 'rotate-180' : ''}`} />}
       </button>
-      <div className="mt-1.5 ml-7 h-1.5 rounded-full bg-white/[0.06] overflow-hidden">
+      <div className="mt-1.5 ml-7 h-1.5 rounded-full bg-ink-100 dark:bg-white/[0.06] overflow-hidden">
         <div className={`h-full rounded-full ${tone.bar} transition-all`} style={{ width: `${pct}%` }} />
       </div>
       {open && hasTips && (
         <ul className="mt-2 ml-7 space-y-1">
           {cat.tips.map((t, i) => (
-            <li key={i} className="text-xs text-white/60 flex gap-1.5">
-              <span className="text-indigo-400 mt-0.5">→</span>{t}
+            <li key={i} className="text-xs text-ink-500 dark:text-ink-400 flex gap-1.5">
+              <span className="text-primary-600 dark:text-primary-400 mt-0.5">→</span>{t}
             </li>
           ))}
         </ul>
@@ -61,10 +61,10 @@ const CategoryRow = ({ cat }) => {
 
 const Chip = ({ children, variant }) => (
   <span
-    className={`text-xs px-2 py-0.5 rounded-full ${
+    className={`text-xs px-2 py-0.5 rounded-md ${
       variant === 'matched'
-        ? 'bg-emerald-500/15 text-emerald-300'
-        : 'bg-rose-500/15 text-rose-300'
+        ? 'bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-400'
+        : 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400'
     }`}
   >
     {children}
@@ -79,11 +79,11 @@ const AtsScorePanel = ({ data }) => {
   const matchTone = jobMatch ? (jobMatch.score >= 70 ? 'good' : jobMatch.score >= 40 ? 'warn' : 'bad') : 'warn';
 
   return (
-    <section className="bg-white/[0.03] rounded-2xl p-6 border border-white/[0.1] print:hidden">
+    <section className="bg-white dark:bg-[#161b22] rounded-xl p-6 border border-ink-200 dark:border-[#262c36] shadow-soft print:hidden">
       <div className="flex items-center gap-2 mb-4">
-        <HiOutlineSparkles className="w-5 h-5 text-indigo-400" />
-        <h3 className="font-bold text-white">ATS Score</h3>
-        <span className={`ml-auto text-xs font-semibold px-2.5 py-1 rounded-full ${TONE[label.tone].text} bg-white/[0.06]`}>
+        <HiOutlineChartBar className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+        <h3 className="font-bold text-ink-900 dark:text-white">ATS Score</h3>
+        <span className={`ml-auto text-xs font-semibold px-2.5 py-1 rounded-md ${TONE[label.tone].text} bg-ink-100 dark:bg-white/[0.06]`}>
           {label.text}
         </span>
       </div>
@@ -91,7 +91,7 @@ const AtsScorePanel = ({ data }) => {
       {/* Overall */}
       <div className="flex items-center gap-5 mb-5">
         <ScoreRing score={overall} tone={label.tone} />
-        <p className="text-sm text-white/60 leading-relaxed">
+        <p className="text-sm text-ink-500 dark:text-ink-400 leading-relaxed">
           How well your resume reads to an automated applicant tracking system. Expand any row below for tips to raise it.
         </p>
       </div>
@@ -102,14 +102,14 @@ const AtsScorePanel = ({ data }) => {
       </div>
 
       {/* Job match */}
-      <div className="mt-5 pt-4 border-t border-white/[0.08]">
+      <div className="mt-5 pt-4 border-t border-ink-200 dark:border-[#262c36]">
         <button
           onClick={() => setShowJd((s) => !s)}
-          className="w-full flex items-center gap-2 text-sm font-medium text-white/70"
+          className="w-full flex items-center gap-2 text-sm font-medium text-ink-700 dark:text-ink-300"
         >
-          <HiOutlineBriefcase className="w-4 h-4 text-indigo-400" />
+          <HiOutlineBriefcase className="w-4 h-4 text-primary-600 dark:text-primary-400" />
           Match against a job description
-          <HiOutlineChevronDown className={`w-4 h-4 text-white/50 ml-auto transition-transform ${showJd ? 'rotate-180' : ''}`} />
+          <HiOutlineChevronDown className={`w-4 h-4 text-ink-400 ml-auto transition-transform ${showJd ? 'rotate-180' : ''}`} />
         </button>
 
         {showJd && (
@@ -119,25 +119,25 @@ const AtsScorePanel = ({ data }) => {
               value={jd}
               onChange={(e) => setJd(e.target.value)}
               placeholder="Paste the job description here to see how many of its keywords your resume covers…"
-              className="w-full px-3 py-2 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-ink-100 placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm resize-none transition"
             />
 
             {jobMatch && (
               <div className="mt-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-white/70">
+                  <span className="text-sm font-semibold text-ink-700 dark:text-ink-300">
                     Keyword match
-                    <span className="font-normal text-white/50"> · {jobMatch.matched.length}/{jobMatch.total} keywords</span>
+                    <span className="font-normal text-ink-500 dark:text-ink-400"> · {jobMatch.matched.length}/{jobMatch.total} keywords</span>
                   </span>
                   <span className={`text-lg font-bold ${TONE[matchTone].text}`}>{jobMatch.score}%</span>
                 </div>
-                <div className="h-2 rounded-full bg-white/[0.06] overflow-hidden mb-4">
+                <div className="h-2 rounded-full bg-ink-100 dark:bg-white/[0.06] overflow-hidden mb-4">
                   <div className={`h-full rounded-full ${TONE[matchTone].bar} transition-all`} style={{ width: `${jobMatch.score}%` }} />
                 </div>
 
                 {jobMatch.missing.length > 0 && (
                   <div className="mb-3">
-                    <p className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-1.5">
+                    <p className="text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wide mb-1.5">
                       Missing keywords — add these if relevant
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -148,7 +148,7 @@ const AtsScorePanel = ({ data }) => {
 
                 {jobMatch.matched.length > 0 && (
                   <div>
-                    <p className="text-xs font-semibold text-white/60 uppercase tracking-wide mb-1.5">
+                    <p className="text-xs font-semibold text-ink-500 dark:text-ink-400 uppercase tracking-wide mb-1.5">
                       Matched keywords
                     </p>
                     <div className="flex flex-wrap gap-1.5">

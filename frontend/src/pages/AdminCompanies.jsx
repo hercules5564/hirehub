@@ -68,48 +68,45 @@ const AdminCompanies = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#030303] text-white pt-24 flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-white/10 border-t-indigo-400 rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24 flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-ink-200 dark:border-[#262c36] border-t-primary-600 dark:border-t-primary-400 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24">
+    <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-3">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-600/10 px-3 py-1 rounded-md mb-3">
             <HiOutlineOfficeBuilding className="w-4 h-4" /> Admin Console
           </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white">
-            Manage{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">
-              Companies
-            </span>
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white">
+            Manage Companies
           </h1>
-          <p className="text-white/60 mt-2">Registered employers</p>
+          <p className="text-ink-500 dark:text-ink-400 mt-2">Registered employers</p>
         </div>
 
         {/* Search */}
         <div className="relative mb-6 max-w-md">
-          <HiOutlineSearch className="w-5 h-5 text-white/50 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <HiOutlineSearch className="w-5 h-5 text-ink-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={search}
             onChange={handleSearch}
             placeholder="Search companies..."
-            className="w-full pl-11 pr-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.06] text-white placeholder-white/50 focus:ring-2 focus:ring-indigo-400/60 outline-none text-sm"
+            className="w-full pl-11 pr-4 py-2.5 rounded-lg border border-ink-300 dark:border-[#262c36] bg-white dark:bg-[#0d1117] text-ink-900 dark:text-white placeholder-ink-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none text-sm transition"
           />
         </div>
 
         {/* Grid / Empty */}
         {companies.length === 0 ? (
           <div className="text-center py-20">
-            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-indigo-300">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
               <HiOutlineOfficeBuilding className="w-7 h-7" />
             </div>
-            <p className="text-white/60">No companies found.</p>
+            <p className="text-ink-500 dark:text-ink-400">No companies found.</p>
           </div>
         ) : (
           <>
@@ -117,7 +114,7 @@ const AdminCompanies = () => {
               {companies.map((company) => (
                 <div
                   key={company?._id}
-                  className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-5 hover:border-white/[0.2] transition-all duration-300 flex flex-col"
+                  className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-5 hover:border-primary-300 dark:hover:border-primary-600/40 transition-colors flex flex-col"
                 >
                   {/* Top row */}
                   <div className="flex items-center gap-3 mb-4">
@@ -125,31 +122,31 @@ const AdminCompanies = () => {
                       <img
                         src={company.logo}
                         alt={company?.companyName || 'Company'}
-                        className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-white/[0.1]"
+                        className="w-12 h-12 rounded-lg object-cover flex-shrink-0 border border-ink-200 dark:border-[#262c36]"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center text-white text-lg font-semibold uppercase shadow-[0_8px_24px_0_rgba(99,102,241,0.35)] flex-shrink-0">
+                      <div className="w-12 h-12 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center text-primary-600 dark:text-primary-400 text-lg font-semibold uppercase flex-shrink-0">
                         {company?.companyName?.charAt(0) || '?'}
                       </div>
                     )}
                     <div className="min-w-0">
-                      <p className="font-semibold text-white truncate">
+                      <p className="font-semibold text-ink-900 dark:text-white truncate">
                         {company?.companyName || 'Unnamed Company'}
                       </p>
                       {company?.industry && (
-                        <p className="text-xs text-white/50 truncate">{company.industry}</p>
+                        <p className="text-xs text-ink-500 dark:text-ink-400 truncate">{company.industry}</p>
                       )}
                     </div>
                   </div>
 
                   {/* Body */}
                   <div className="space-y-2 flex-1">
-                    <div className="flex items-center gap-2 text-sm text-white/70 min-w-0">
-                      <HiOutlineLocationMarker className="w-4 h-4 text-white/40 flex-shrink-0" />
+                    <div className="flex items-center gap-2 text-sm text-ink-600 dark:text-ink-300 min-w-0">
+                      <HiOutlineLocationMarker className="w-4 h-4 text-ink-400 flex-shrink-0" />
                       <span className="truncate">{company?.location || 'No location'}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-white/70 min-w-0">
-                      <HiOutlineMail className="w-4 h-4 text-white/40 flex-shrink-0" />
+                    <div className="flex items-center gap-2 text-sm text-ink-600 dark:text-ink-300 min-w-0">
+                      <HiOutlineMail className="w-4 h-4 text-ink-400 flex-shrink-0" />
                       <span className="truncate">
                         {company?.recruiterId?.email || 'No owner'}
                       </span>
@@ -157,16 +154,16 @@ const AdminCompanies = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.08]">
+                  <div className="flex items-center justify-between mt-5 pt-4 border-t border-ink-200 dark:border-[#262c36]">
                     <Link
                       to={`/company/${company?._id}`}
-                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-300 hover:text-indigo-200 transition-colors"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
                     >
                       <HiOutlineEye className="w-4 h-4" /> View
                     </Link>
                     <button
                       onClick={() => handleDelete(company?._id)}
-                      className="p-2 rounded-lg hover:bg-rose-500/15 text-white/60 hover:text-rose-300 transition-colors"
+                      className="p-2 rounded-lg hover:bg-ink-100 dark:hover:bg-white/[0.06] text-ink-500 dark:text-ink-400 hover:text-danger transition-colors"
                       aria-label="Delete company"
                     >
                       <HiOutlineTrash className="w-4 h-4" />
@@ -182,17 +179,17 @@ const AdminCompanies = () => {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={(pagination?.page || page) <= 1}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-ink-300 dark:border-[#262c36] text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <HiOutlineChevronLeft className="w-4 h-4" /> Prev
                 </button>
-                <span className="text-sm text-white/60">
+                <span className="text-sm text-ink-500 dark:text-ink-400">
                   Page {pagination?.page || page} of {pagination?.pages || 1}
                 </span>
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={(pagination?.page || page) >= (pagination?.pages || 1)}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold bg-white/[0.06] text-white/70 hover:bg-white/[0.1] hover:text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-semibold border border-ink-300 dark:border-[#262c36] text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.04] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Next <HiOutlineChevronRight className="w-4 h-4" />
                 </button>

@@ -4,7 +4,7 @@ import { HiOutlineChartBar, HiOutlineUsers, HiOutlineBriefcase, HiOutlineClipboa
 import toast from 'react-hot-toast';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, Legend } from 'recharts';
 
-const COLORS = ['#6366f1', '#f43f5e', '#f59e0b', '#10b981', '#8b5cf6'];
+const COLORS = ['#2457e6', '#93b4fd', '#1d46cf', '#15803d', '#b45309'];
 
 const AdminAnalytics = () => {
   const [stats, setStats] = useState(null);
@@ -25,8 +25,8 @@ const AdminAnalytics = () => {
   }, []);
 
   if (loading) return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24 flex items-center justify-center">
-      <div className="w-10 h-10 border-4 border-white/10 border-t-indigo-400 rounded-full animate-spin"></div>
+    <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24 flex items-center justify-center">
+      <div className="w-10 h-10 border-4 border-ink-200 dark:border-[#262c36] border-t-primary-600 dark:border-t-primary-400 rounded-full animate-spin"></div>
     </div>
   );
 
@@ -66,31 +66,31 @@ const AdminAnalytics = () => {
     { name: 'Other', value: inactiveJobs },
   ].filter((d) => d.value > 0);
 
-  const tooltipStyle = { background: '#0a0a0a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 12, color: '#fff' };
+  const tooltipStyle = { background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: 8, color: '#111827', fontSize: 12 };
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white pt-24">
+    <div className="min-h-screen bg-ink-50 dark:bg-[#11161f] text-ink-700 dark:text-ink-300 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-10">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/15 px-3 py-1 rounded-full mb-3">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-primary-700 dark:text-primary-300 bg-primary-50 dark:bg-primary-600/10 px-3 py-1 rounded-md mb-3">
             <HiOutlineChartBar className="w-4 h-4" /> Admin Console
           </span>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white">
-            Platform <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-white/90 to-rose-300">Analytics</span>
+          <h1 className="text-2xl sm:text-3xl font-bold text-ink-900 dark:text-white">
+            Platform Analytics
           </h1>
-          <p className="text-white/60 mt-2">Growth and distribution</p>
+          <p className="text-ink-500 dark:text-ink-400 mt-2">Growth and distribution</p>
         </div>
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {statCards.map((s, i) => (
-            <div key={i} className="bg-white/[0.03] border border-white/[0.1] p-5 rounded-2xl hover:bg-white/[0.05] hover:border-white/[0.2] transition-all duration-300">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-rose-500 flex items-center justify-center mb-3 shadow-[0_8px_24px_0_rgba(99,102,241,0.35)]">
-                <s.icon className="w-6 h-6 text-white" />
+            <div key={i} className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] p-5 rounded-xl">
+              <div className="w-11 h-11 rounded-lg bg-primary-50 dark:bg-primary-600/10 flex items-center justify-center mb-3">
+                <s.icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
               </div>
-              <p className="text-3xl font-bold text-white">{s.value}</p>
-              <p className="text-sm text-white/60">{s.label}</p>
+              <p className="text-3xl font-bold text-ink-900 dark:text-white">{s.value}</p>
+              <p className="text-sm text-ink-500 dark:text-ink-400">{s.label}</p>
             </div>
           ))}
         </div>
@@ -98,14 +98,14 @@ const AdminAnalytics = () => {
         {/* Charts */}
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Users by role */}
-          <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-white mb-4">Users by role</h2>
+          <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6">
+            <h2 className="text-lg font-bold text-ink-900 dark:text-white mb-4">Users by role</h2>
             {roleData.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-indigo-300">
+                <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
                   <HiOutlineUsers className="w-7 h-7" />
                 </div>
-                <p className="text-sm text-white/60">No user data to show yet.</p>
+                <p className="text-sm text-ink-500 dark:text-ink-400">No user data to show yet.</p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={300}>
@@ -116,35 +116,35 @@ const AdminAnalytics = () => {
                     ))}
                   </Pie>
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Legend wrapperStyle={{ color: '#ffffffaa', fontSize: 12 }} />
+                  <Legend wrapperStyle={{ color: '#6b7280', fontSize: 12 }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
           </div>
 
           {/* Platform totals */}
-          <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-white mb-4">Platform totals</h2>
+          <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6">
+            <h2 className="text-lg font-bold text-ink-900 dark:text-white mb-4">Platform totals</h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={totalsData}>
-                <CartesianGrid stroke="#ffffff14" vertical={false} />
-                <XAxis dataKey="name" tick={{ fill: '#ffffff66', fontSize: 12 }} stroke="#ffffff22" />
-                <YAxis tick={{ fill: '#ffffff66', fontSize: 12 }} stroke="#ffffff22" allowDecimals={false} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: '#ffffff0a' }} />
-                <Bar dataKey="value" fill="#6366f1" radius={[6, 6, 0, 0]} />
+                <CartesianGrid stroke="#e5e7eb" vertical={false} />
+                <XAxis dataKey="name" tick={{ fill: '#6b7280', fontSize: 12 }} stroke="#e5e7eb" />
+                <YAxis tick={{ fill: '#6b7280', fontSize: 12 }} stroke="#e5e7eb" allowDecimals={false} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: 'rgba(36,87,230,0.06)' }} />
+                <Bar dataKey="value" fill="#2457e6" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
           {/* Jobs status */}
-          <div className="bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6 lg:col-span-2">
-            <h2 className="text-lg font-bold text-white mb-4">Jobs status</h2>
+          <div className="bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] rounded-xl p-6 lg:col-span-2">
+            <h2 className="text-lg font-bold text-ink-900 dark:text-white mb-4">Jobs status</h2>
             {jobsStatusData.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-indigo-500/15 flex items-center justify-center text-indigo-300">
+                <div className="w-14 h-14 mx-auto mb-3 rounded-xl bg-ink-100 dark:bg-white/[0.06] flex items-center justify-center text-ink-400">
                   <HiOutlineBriefcase className="w-7 h-7" />
                 </div>
-                <p className="text-sm text-white/60">No job data to show yet.</p>
+                <p className="text-sm text-ink-500 dark:text-ink-400">No job data to show yet.</p>
               </div>
             ) : (
               <ResponsiveContainer width="100%" height={300}>
@@ -155,7 +155,7 @@ const AdminAnalytics = () => {
                     ))}
                   </Pie>
                   <Tooltip contentStyle={tooltipStyle} />
-                  <Legend wrapperStyle={{ color: '#ffffffaa', fontSize: 12 }} />
+                  <Legend wrapperStyle={{ color: '#6b7280', fontSize: 12 }} />
                 </PieChart>
               </ResponsiveContainer>
             )}
