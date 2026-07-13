@@ -1,30 +1,30 @@
-import { Link } from 'react-router-dom';
-import toast from 'react-hot-toast';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
-  HiOutlineBriefcase, HiOutlineUsers, HiOutlineOfficeBuilding,
+  HiOutlineSearch, HiOutlineBriefcase, HiOutlineUsers, HiOutlineOfficeBuilding,
   HiOutlineLightningBolt, HiOutlineShieldCheck, HiOutlineChartBar, HiOutlineStar,
-  HiOutlineArrowRight, HiOutlineDocumentSearch, HiOutlinePaperAirplane, HiOutlineMail,
+  HiOutlineArrowRight, HiOutlineDocumentSearch, HiOutlinePaperAirplane,
   HiOutlineCode, HiOutlineColorSwatch, HiOutlineSpeakerphone, HiOutlineCurrencyDollar,
   HiOutlineHeart, HiOutlineAcademicCap, HiOutlineCog, HiOutlineTrendingUp, HiOutlineCheck,
-  HiOutlineChevronRight,
+  HiOutlineLocationMarker,
 } from 'react-icons/hi';
-import { FcGoogle } from 'react-icons/fc';
-import { SiGoogle, SiFlipkart, SiSwiggy, SiZomato, SiPaytm, SiPhonepe, SiUber } from 'react-icons/si';
 import { RevealGroup, RevealItem, Reveal } from '../components/ui/Reveal';
 
-const trustedLogos = [
-  { Icon: SiGoogle, label: 'Google' },
-  { Icon: SiFlipkart, label: 'Flipkart' },
-  { Icon: SiPaytm, label: 'Paytm' },
-  { Icon: SiSwiggy, label: 'Swiggy' },
-  { Icon: SiZomato, label: 'Zomato' },
-  { Icon: SiPhonepe, label: 'PhonePe' },
-  { Icon: SiUber, label: 'Uber' },
+const latestRoles = [
+  { title: 'Senior React Developer', company: 'TechCorp India', location: 'Bangalore', salary: '₹15–25L' },
+  { title: 'Product Designer', company: 'InnovateTech', location: 'Remote', salary: '₹12–20L' },
+  { title: 'Data Analyst', company: 'DataFlow Analytics', location: 'Mumbai', salary: '₹8–14L' },
+  { title: 'DevOps Engineer', company: 'CloudNine Solutions', location: 'Hyderabad', salary: '₹16–28L' },
 ];
 
 const Landing = () => {
-  const handleGoogle = () =>
-    toast('Google sign-in is coming soon — continue with email for now.');
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/jobs?search=${encodeURIComponent(search)}`);
+  };
 
   const stats = [
     { icon: HiOutlineBriefcase, value: '10,000+', label: 'Active jobs' },
@@ -59,85 +59,101 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
-      {/* ===== Hero (sign-up focused, blue band) ===== */}
-      <section className="relative bg-[#15357d] dark:bg-[#0f2a63] text-white overflow-hidden">
-        {/* faint same-hue highlight for depth (single colour, not a rainbow gradient) */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(48rem 34rem at 88% -20%, rgba(255,255,255,0.10), transparent 60%)' }}
-        />
+      {/* ===== Hero — search-led, with a live roles preview ===== */}
+      <section className="relative overflow-hidden border-b border-ink-200 dark:border-[#262c36]">
+        {/* faint dotted texture, fading downward */}
+        <div className="pointer-events-none absolute inset-0 bg-dots opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 lg:pt-16">
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-10 items-center">
             {/* Left */}
-            <div className="pb-14">
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
-                India&apos;s <span className="text-amber-300">#1 platform</span>
+            <div className="lg:col-span-7">
+              <div className="inline-flex items-center gap-2 rounded-full border border-ink-200 dark:border-[#262c36] bg-white dark:bg-[#161b22] px-3 py-1 text-xs font-medium text-ink-600 dark:text-ink-400">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-green-500/60 animate-ping" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                </span>
+                Fresh roles added every week
+              </div>
+
+              <h1 className="mt-5 text-4xl sm:text-5xl lg:text-[3.3rem] font-bold tracking-tight leading-[1.06] text-ink-900 dark:text-white text-balance">
+                The shortest path to your{' '}
+                <span className="relative whitespace-nowrap text-primary-600 dark:text-primary-400">
+                  next role
+                  <span className="absolute -bottom-1 left-0 h-1 w-full rounded-full bg-primary-200 dark:bg-primary-600/40" />
+                </span>.
               </h1>
-              <p className="mt-3 text-lg text-white/85">
-                For <span className="underline decoration-white/40 underline-offset-4 decoration-2">jobs, resumes, and getting hired</span>
+              <p className="mt-5 text-lg text-ink-600 dark:text-ink-400 max-w-xl">
+                Search verified jobs, get matched to the ones that actually fit, and track every application in one place.
               </p>
 
-              {/* Candidate sign-up card */}
-              <div className="mt-7 max-w-lg rounded-xl bg-white/10 border border-white/15 p-5">
-                <p className="text-sm font-semibold text-white mb-3">Candidate sign up</p>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <button
-                    onClick={handleGoogle}
-                    className="flex items-center justify-center gap-2.5 bg-white text-ink-900 font-semibold rounded-lg px-4 py-3 hover:bg-white/90 transition-colors"
-                  >
-                    <FcGoogle className="w-5 h-5" /> Continue with Google
+              {/* Search */}
+              <form onSubmit={handleSearch} className="mt-7 max-w-xl">
+                <div className="flex items-center gap-2 p-1.5 rounded-xl bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] shadow-soft focus-within:border-primary-400 dark:focus-within:border-primary-500 transition-colors">
+                  <div className="flex-1 flex items-center gap-2 px-3">
+                    <HiOutlineSearch className="w-5 h-5 text-ink-400 flex-shrink-0" />
+                    <input
+                      type="text" value={search} onChange={(e) => setSearch(e.target.value)}
+                      placeholder="Job title, skill, or company"
+                      className="w-full py-2.5 bg-transparent text-ink-900 dark:text-white placeholder-ink-400 outline-none text-sm"
+                    />
+                  </div>
+                  <button type="submit" className="px-5 py-2.5 rounded-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-colors">
+                    Search
                   </button>
-                  <Link
-                    to="/signup"
-                    className="flex items-center justify-center gap-2.5 bg-primary-600 hover:bg-primary-500 border border-white/20 text-white font-semibold rounded-lg px-4 py-3 transition-colors"
-                  >
-                    <HiOutlineMail className="w-5 h-5" /> Continue with Email
-                  </Link>
                 </div>
-                <p className="mt-3 text-xs text-white/75">
-                  By continuing as a candidate, you agree to our{' '}
-                  <Link to="/terms" className="underline hover:text-white">T&amp;C</Link>.
-                </p>
+              </form>
+
+              <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+                <span className="text-ink-500 dark:text-ink-400">Trending:</span>
+                {['React Developer', 'Data Analyst', 'Product Designer', 'DevOps'].map((tag) => (
+                  <Link key={tag} to={`/jobs?search=${tag}`}
+                    className="px-2.5 py-0.5 rounded-md border border-ink-200 dark:border-[#262c36] text-ink-600 dark:text-ink-400 hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    {tag}
+                  </Link>
+                ))}
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
-                <Link to="/signup" className="inline-flex items-center gap-1 text-sm font-semibold text-white hover:text-amber-300 transition-colors">
-                  Employer sign up <HiOutlineChevronRight className="w-4 h-4" />
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                <Link to="/signup" className="inline-flex items-center gap-1.5 font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
+                  Create a free account <HiOutlineArrowRight className="w-4 h-4" />
                 </Link>
-                <span className="text-white/30">·</span>
-                <Link to="/jobs" className="inline-flex items-center gap-1 text-sm font-medium text-white/80 hover:text-white transition-colors">
-                  Just browsing? See all jobs <HiOutlineArrowRight className="w-4 h-4" />
+                <span className="text-ink-300 dark:text-ink-600">·</span>
+                <Link to="/signup" className="font-medium text-ink-600 dark:text-ink-400 hover:text-ink-900 dark:hover:text-white transition-colors">
+                  Hiring? Post a job
                 </Link>
               </div>
             </div>
 
-            {/* Right — photo */}
-            <div className="hidden lg:block relative">
-              <div className="overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1100&q=80"
-                  alt="Candidates who found their next role on HireHub"
-                  className="w-full h-[420px] object-cover"
-                  draggable={false}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Trust strip */}
-        <div className="relative mt-4 border-t border-white/10 bg-black/15">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center gap-6 sm:gap-10 overflow-x-auto">
-            <div className="flex-shrink-0 flex items-center gap-3 pr-6 border-r border-white/15">
-              <span className="text-2xl font-bold text-white">10K+</span>
-              <span className="text-sm text-white/70 leading-tight">Openings<br />daily</span>
-            </div>
-            <div className="flex items-center gap-8 sm:gap-11">
-              {trustedLogos.map(({ Icon, label }) => (
-                <Icon key={label} title={label} aria-label={label}
-                  className="w-7 h-7 flex-shrink-0 text-white/55 hover:text-white/90 transition-colors" />
-              ))}
+            {/* Right — live roles preview panel */}
+            <div className="lg:col-span-5">
+              <Reveal className="rounded-2xl border border-ink-200 dark:border-[#262c36] bg-white dark:bg-[#161b22] shadow-soft overflow-hidden">
+                <div className="flex items-center justify-between px-5 py-3.5 border-b border-ink-200 dark:border-[#262c36]">
+                  <span className="text-sm font-semibold text-ink-900 dark:text-white">Latest openings</span>
+                  <Link to="/jobs" className="text-xs font-semibold text-primary-600 dark:text-primary-400 hover:underline">View all</Link>
+                </div>
+                <div className="divide-y divide-ink-200 dark:divide-[#262c36]">
+                  {latestRoles.map((r) => (
+                    <Link key={r.title} to={`/jobs?search=${encodeURIComponent(r.title)}`}
+                      className="group flex items-center gap-3 px-5 py-3.5 hover:bg-ink-50 dark:hover:bg-white/[0.03] transition-colors">
+                      <span className="w-10 h-10 rounded-lg bg-primary-50 dark:bg-primary-600/10 text-primary-600 dark:text-primary-400 font-bold flex items-center justify-center flex-shrink-0">
+                        {r.company[0]}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-ink-900 dark:text-white truncate group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{r.title}</p>
+                        <p className="text-xs text-ink-500 dark:text-ink-400 truncate flex items-center gap-1.5">
+                          {r.company} <span className="text-ink-300 dark:text-ink-600">·</span>
+                          <HiOutlineLocationMarker className="w-3.5 h-3.5" />{r.location} <span className="text-ink-300 dark:text-ink-600">·</span> {r.salary}
+                        </p>
+                      </div>
+                      <HiOutlineArrowRight className="w-4 h-4 text-ink-300 dark:text-ink-600 group-hover:text-primary-600 dark:group-hover:text-primary-400 group-hover:translate-x-0.5 transition-all flex-shrink-0" />
+                    </Link>
+                  ))}
+                </div>
+                <Link to="/jobs" className="block px-5 py-3 text-center text-sm font-semibold text-ink-700 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-white/[0.03] border-t border-ink-200 dark:border-[#262c36] transition-colors">
+                  Browse all jobs
+                </Link>
+              </Reveal>
             </div>
           </div>
         </div>
