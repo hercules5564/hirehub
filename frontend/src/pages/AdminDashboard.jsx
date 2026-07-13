@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getAdminStatsAPI, getAdminUsersAPI, updateAdminUserAPI, moderateJobAPI } from '../services/api';
-import { HiOutlineUsers, HiOutlineBriefcase, HiOutlineOfficeBuilding, HiOutlineClipboardList, HiOutlineCheck, HiOutlineX, HiOutlineShieldCheck, HiOutlineSparkles, HiOutlineUserCircle } from 'react-icons/hi';
+import { getAdminStatsAPI, updateAdminUserAPI } from '../services/api';
+import { HiOutlineUsers, HiOutlineBriefcase, HiOutlineOfficeBuilding, HiOutlineClipboardList, HiOutlineShieldCheck, HiOutlineUserCircle } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
 const AdminDashboard = () => {
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
         setStats(res.data.stats);
         setUsers(res.data.recentUsers || []);
         setRecentJobs(res.data.recentJobs || []);
-      } catch (err) { toast.error('Failed to load stats'); }
+      } catch { toast.error('Failed to load stats'); }
       finally { setLoading(false); }
     };
     load();

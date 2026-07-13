@@ -1,22 +1,30 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import {
-  HiOutlineSearch, HiOutlineBriefcase, HiOutlineUsers, HiOutlineOfficeBuilding,
+  HiOutlineBriefcase, HiOutlineUsers, HiOutlineOfficeBuilding,
   HiOutlineLightningBolt, HiOutlineShieldCheck, HiOutlineChartBar, HiOutlineStar,
-  HiOutlineArrowRight, HiOutlineDocumentSearch, HiOutlinePaperAirplane,
+  HiOutlineArrowRight, HiOutlineDocumentSearch, HiOutlinePaperAirplane, HiOutlineMail,
   HiOutlineCode, HiOutlineColorSwatch, HiOutlineSpeakerphone, HiOutlineCurrencyDollar,
   HiOutlineHeart, HiOutlineAcademicCap, HiOutlineCog, HiOutlineTrendingUp, HiOutlineCheck,
+  HiOutlineChevronRight,
 } from 'react-icons/hi';
+import { FcGoogle } from 'react-icons/fc';
+import { SiGoogle, SiFlipkart, SiSwiggy, SiZomato, SiPaytm, SiPhonepe, SiUber } from 'react-icons/si';
 import { RevealGroup, RevealItem, Reveal } from '../components/ui/Reveal';
 
-const Landing = () => {
-  const [search, setSearch] = useState('');
-  const navigate = useNavigate();
+const trustedLogos = [
+  { Icon: SiGoogle, label: 'Google' },
+  { Icon: SiFlipkart, label: 'Flipkart' },
+  { Icon: SiPaytm, label: 'Paytm' },
+  { Icon: SiSwiggy, label: 'Swiggy' },
+  { Icon: SiZomato, label: 'Zomato' },
+  { Icon: SiPhonepe, label: 'PhonePe' },
+  { Icon: SiUber, label: 'Uber' },
+];
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    navigate(`/jobs?search=${encodeURIComponent(search)}`);
-  };
+const Landing = () => {
+  const handleGoogle = () =>
+    toast('Google sign-in is coming soon — continue with email for now.');
 
   const stats = [
     { icon: HiOutlineBriefcase, value: '10,000+', label: 'Active jobs' },
@@ -51,46 +59,86 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0d1117] text-ink-700 dark:text-ink-300">
-      {/* ===== Hero ===== */}
-      <section className="relative border-b border-ink-200 dark:border-[#262c36] bg-ink-50 dark:bg-[#11161f]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-ink-200 dark:border-[#262c36] bg-white dark:bg-[#161b22] text-xs font-medium text-ink-600 dark:text-ink-400 mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary-600" />
-            Trusted by 2,500+ companies hiring now
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink-900 dark:text-white text-balance leading-[1.08]">
-            Find work that fits, <br className="hidden sm:block" />
-            <span className="text-primary-600 dark:text-primary-400">without the noise.</span>
-          </h1>
-          <p className="mt-5 text-lg text-ink-600 dark:text-ink-400 max-w-2xl mx-auto text-balance">
-            Search thousands of verified roles, get matched to the ones that suit you,
-            and manage every application in one place.
-          </p>
+      {/* ===== Hero (sign-up focused, blue band) ===== */}
+      <section className="relative bg-[#15357d] dark:bg-[#0f2a63] text-white overflow-hidden">
+        {/* faint same-hue highlight for depth (single colour, not a rainbow gradient) */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: 'radial-gradient(48rem 34rem at 88% -20%, rgba(255,255,255,0.10), transparent 60%)' }}
+        />
 
-          {/* Search */}
-          <form onSubmit={handleSearch} className="mt-8 max-w-2xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-2.5 p-2 rounded-xl bg-white dark:bg-[#161b22] border border-ink-200 dark:border-[#262c36] shadow-soft">
-              <div className="flex-1 flex items-center gap-2 px-3">
-                <HiOutlineSearch className="w-5 h-5 text-ink-400 flex-shrink-0" />
-                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Job title, skill, or company"
-                  className="w-full py-2.5 bg-transparent text-ink-900 dark:text-white placeholder-ink-400 outline-none text-sm" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 lg:pt-16">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
+            {/* Left */}
+            <div className="pb-14">
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-[1.1]">
+                India&apos;s <span className="text-amber-300">#1 platform</span>
+              </h1>
+              <p className="mt-3 text-lg text-white/85">
+                For <span className="underline decoration-white/40 underline-offset-4 decoration-2">jobs, resumes, and getting hired</span>
+              </p>
+
+              {/* Candidate sign-up card */}
+              <div className="mt-7 max-w-lg rounded-xl bg-white/10 border border-white/15 p-5">
+                <p className="text-sm font-semibold text-white mb-3">Candidate sign up</p>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  <button
+                    onClick={handleGoogle}
+                    className="flex items-center justify-center gap-2.5 bg-white text-ink-900 font-semibold rounded-lg px-4 py-3 hover:bg-white/90 transition-colors"
+                  >
+                    <FcGoogle className="w-5 h-5" /> Continue with Google
+                  </button>
+                  <Link
+                    to="/signup"
+                    className="flex items-center justify-center gap-2.5 bg-primary-600 hover:bg-primary-500 border border-white/20 text-white font-semibold rounded-lg px-4 py-3 transition-colors"
+                  >
+                    <HiOutlineMail className="w-5 h-5" /> Continue with Email
+                  </Link>
+                </div>
+                <p className="mt-3 text-xs text-white/75">
+                  By continuing as a candidate, you agree to our{' '}
+                  <Link to="/terms" className="underline hover:text-white">T&amp;C</Link>.
+                </p>
               </div>
-              <button type="submit" className="px-6 py-2.5 rounded-lg font-semibold text-white bg-primary-600 hover:bg-primary-700 transition-colors flex items-center justify-center gap-2">
-                Search jobs
-              </button>
-            </div>
-          </form>
 
-          {/* Popular */}
-          <div className="mt-5 flex flex-wrap justify-center gap-2 text-sm">
-            <span className="text-ink-500 dark:text-ink-400">Popular:</span>
-            {['React Developer', 'Python', 'Data Analyst', 'DevOps', 'UI Designer'].map((tag) => (
-              <Link key={tag} to={`/jobs?search=${tag}`}
-                className="px-2.5 py-0.5 rounded-md border border-ink-200 dark:border-[#262c36] text-ink-600 dark:text-ink-400 hover:border-primary-300 dark:hover:border-primary-700 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                {tag}
-              </Link>
-            ))}
+              <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
+                <Link to="/signup" className="inline-flex items-center gap-1 text-sm font-semibold text-white hover:text-amber-300 transition-colors">
+                  Employer sign up <HiOutlineChevronRight className="w-4 h-4" />
+                </Link>
+                <span className="text-white/30">·</span>
+                <Link to="/jobs" className="inline-flex items-center gap-1 text-sm font-medium text-white/80 hover:text-white transition-colors">
+                  Just browsing? See all jobs <HiOutlineArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right — photo */}
+            <div className="hidden lg:block relative">
+              <div className="overflow-hidden rounded-2xl ring-1 ring-white/15 shadow-2xl">
+                <img
+                  src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1100&q=80"
+                  alt="Candidates who found their next role on HireHub"
+                  className="w-full h-[420px] object-cover"
+                  draggable={false}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Trust strip */}
+        <div className="relative mt-4 border-t border-white/10 bg-black/15">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center gap-6 sm:gap-10 overflow-x-auto">
+            <div className="flex-shrink-0 flex items-center gap-3 pr-6 border-r border-white/15">
+              <span className="text-2xl font-bold text-white">10K+</span>
+              <span className="text-sm text-white/70 leading-tight">Openings<br />daily</span>
+            </div>
+            <div className="flex items-center gap-8 sm:gap-11">
+              {trustedLogos.map(({ Icon, label }) => (
+                <Icon key={label} title={label} aria-label={label}
+                  className="w-7 h-7 flex-shrink-0 text-white/55 hover:text-white/90 transition-colors" />
+              ))}
+            </div>
           </div>
         </div>
       </section>
