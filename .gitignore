@@ -36,3 +36,19 @@ Thumbs.db
 *.local
 coverage/
 .cache/
+
+# AI assistant / editor tool config directories (not part of the app)
+.agent/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.github/prompts/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.windsurf/
